@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+    sidebarOpened = false;
+    
+    title = 'app';
+    
+    toggleSidebar(event: any) {
+		this.sidebarOpened = !this.sidebarOpened;
+	}
 }

@@ -1,0 +1,66 @@
+{
+    "title": "REST Player",
+    "contactEmail": "bernard.deregnaucourt@vidal.fr",
+    "copyright": "",
+    "version": "v1.0",
+    "logo": "",
+    "logoHref": "#!/home",
+    "startPage": "#!/home",
+    "brand": "Marque",
+    "inputZone": true,
+    "inputButtonLabel": "",
+    "inputButtonIcon": "search",
+    "inputPlaceHolder": "Search in help...",
+    "inputButtonHref": "/help/",
+    "navbarMenu":
+    [
+        {
+            "label": "",
+            "href": "/help",
+            "icon": "life-ring",
+            "title": "Help !"
+        },
+        {
+            "label": "",
+            "href": "/play",
+            "icon": "play",
+            "title": "Play a query"
+        },
+        {
+            "label": "",
+            "href": "/plays",
+            "icon": "forward",
+            "title": "Play some queries"
+        }
+    ],
+    "sidebarMenu":
+    [
+        {
+            "label": "Menu1",
+            "href": "/menu1",
+            "icon": "users",
+            "submenu":[
+                {
+                    "label": "Menu11",
+                    "href": "/menu11",
+                    "icon": "star"
+                },
+                {
+                    "label": "Menu12",
+                    "href": "/menu12",
+                    "icon": "star"
+                }
+            ]
+        },
+        {
+            "label": "Menu2",
+            "href": "/menu2",
+            "icon": "star"
+        },
+        {
+            "label": "Login",
+            "href": "/login",
+            "icon": "user"
+        }     
+    ]
+}
