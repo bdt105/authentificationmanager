@@ -10,9 +10,9 @@ import { GenericComponent } from '../generic.component';
 })
 
 export class NavbarComponent extends GenericComponent {
-    connexion: any;
-    menu: any;
-    inputZone: string;
+    public connexion: any;
+    public menu: any;
+    public inputZone: string;
     
     @Output() clickSidebarMenu: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -28,12 +28,9 @@ export class NavbarComponent extends GenericComponent {
         this.menuService.load('./assets/menu.json', (data: any) => this.menuLoaded(data));
     }
 
-    private menuLoadedMain(data: any){
-        this.menu.navbarMenu = data.concat(this.menu.navbarMenu);
-    }
-
     private menuLoaded(data: any){
         this.menu = data;
+        console.log(this.menu);
     }
 
     private menuLoadedFailure(data: any){

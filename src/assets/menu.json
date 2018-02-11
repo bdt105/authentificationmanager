@@ -1,5 +1,5 @@
 {
-    "title": "REST Player",
+    "title": "REST Player 222",
     "contactEmail": "bernard.deregnaucourt@vidal.fr",
     "copyright": "",
     "version": "v1.0",
@@ -15,19 +15,44 @@
     "navbarMenu":
     [
         {
-            "label": "",
+            "label": "Menu 1",
             "href": "/help",
             "icon": "life-ring",
             "title": "Help !"
         },
         {
-            "label": "",
+            "label": "Menu 2",
             "href": "/play",
             "icon": "play",
             "title": "Play a query"
         },
         {
-            "label": "",
+            "label": "Menu3",
+            "href": "/menu1",
+            "icon": "users",
+            "submenu":[
+                {
+                    "label": "Menu31",
+                    "href": "/menu31",
+                    "icon": "star"
+                },
+                {
+                    "label": "Menu31",
+                    "href": "/menu31",
+                    "icon": "star"
+                },
+                {
+                    "label": "divider"
+                },
+                {
+                    "label": "Menu32",
+                    "href": "/menu32",
+                    "icon": "star"
+                }
+            ]
+        },
+        {
+            "label": "Menu 4",
             "href": "/plays",
             "icon": "forward",
             "title": "Play some queries"

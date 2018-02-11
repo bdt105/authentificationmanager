@@ -1,13 +1,14 @@
 <navbar (clickSidebarMenu)="toggleSidebar($event)"></navbar>
-
-<ng-sidebar-container>
+<ng-sidebar-container style="height: 100vh;">
     <ng-sidebar [(opened)]="sidebarOpened" closeOnClickOutside="true" mode="over" [autoFocus]="false">
         <sidebar (menuClick)="sideMenuClick()"></sidebar>
     </ng-sidebar>
+    <div ng-sidebar-content>
+        <div class="container">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
 </ng-sidebar-container>
 <br>
 <br>
 <br>
-<div class="container">
-    <router-outlet></router-outlet>
-</div>

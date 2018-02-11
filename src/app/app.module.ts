@@ -9,14 +9,14 @@ import { NavbarComponent } from '../components/navbar/navbar.component';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
 
 // Sidebar module
-import { SidebarModule } from '../../node_modules/ng-sidebar';
+import { SidebarModule } from 'ng-sidebar';
 
 // Bootstrap components
-import { AccordionModule, AccordionConfig } from '../../node_modules/ngx-bootstrap';
-import { TabsModule } from '../../node_modules/ngx-bootstrap';
-import { TypeaheadModule } from '../../node_modules/ngx-bootstrap';
-import { PaginationModule } from '../../node_modules/ngx-bootstrap';
-import { ModalModule } from '../../node_modules/ngx-bootstrap';
+import { AccordionModule, AccordionConfig } from 'ngx-bootstrap';
+import { TabsModule } from 'ngx-bootstrap';
+import { TypeaheadModule } from 'ngx-bootstrap';
+import { PaginationModule } from 'ngx-bootstrap';
+import { ModalModule } from 'ngx-bootstrap';
 
 // App
 import { AppComponent } from './app.component';

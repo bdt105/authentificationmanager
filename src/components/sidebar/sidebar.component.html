@@ -1,11 +1,11 @@
-<div class="sidebarHeader">
+<!-- <div class="sidebarHeader">
     <div *ngIf="menu">
         <img style="margin-top: 10px; margin-left: 10px" src="">
         <div style="margin-top: 10px; margin-left: 10px">{{menu.title}}</div>
     </div>
     <a (click)="clickMenu('login')" style="font-size: 0.8em; color: white; cursor: pointer; margin-left: 10px">{{connexion && connexion.currentUser ? connexion.currentUser.login: ""}}</a>
     <a (click)="clickMenu('setting')" style="font-size: 0.8em; color: white; cursor: pointer; margin-left: 10px"><i class="fa fa-cogs"></i></a>
-</div>
+</div> -->
 <accordion *ngIf="menu && menu.sidebarMenu">
     <div *ngFor="let men of menu.sidebarMenu">
         <div *ngIf="!men.submenu" class="sidebarMenu">
