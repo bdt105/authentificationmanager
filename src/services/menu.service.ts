@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, RequestMethod, Headers } from '@angular/http';
+import { Http } from '@angular/http';
 import { Toolbox } from 'bdt105toolbox/dist';
 
 @Injectable()

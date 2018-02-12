@@ -1,0 +1,51 @@
+<h1>{{translate('Login')}}</h1>
+<form name="elementForm" class="form-horizontal">
+    <fieldset>
+        <div class="form-group">
+            <label for="" class="col-lg-2 control-label"></label>
+            <div class="col-lg-10">
+                <div class="alert alert-dismissible alert-info">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>{{translate('Login')}}</strong> {{translate('More info: ')}}<a href="{{'mailto: ' + contactEmail}}">{{contactEmail}}</a>
+                </div>
+            </div>
+        </div>            
+        <div class="form-group">
+            <label for="inputEmail" class="col-lg-2 control-label">{{translate('Login')}}</label>
+            <div class="col-lg-10">
+                <input [(ngModel)]="login" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="inputEmail" placeholder="{{translate('Email or login')}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword" class="col-lg-2 control-label">{{translate('Password')}}</label>
+            <div class="col-lg-10">
+                <input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" class="form-control" id="inputPassword" placeholder="{{translate('Password')}}">
+                <div class="checkbox">
+                    <label>
+                        <input [(ngModel)]="rememberMe" [ngModelOptions]="{standalone: true}" type="checkbox"> {{translate('Remember me')}}
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword" class="col-lg-2 control-label"></label>
+            <div class="col-lg-10">
+                <div *ngIf="connexion && connexion.currentUser" class="alert alert-success" role="alert">
+                    {{translate('You are connected as')}} <a href="#!/user">{{connexion.currentUser.login}}</a>. <a href (click)="disconnect()">{{translate('Disconnect')}}</a>
+                </div>               
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword" class="col-lg-2 control-label"></label>
+            <div class="col-lg-10">
+                <button type="submit" class="btn btn-primary" (click)="connect()">{{translate('Login')}}</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword" class="col-lg-2 control-label"></label>
+            <div *ngIf="error" class="alert alert-danger col-lg-10" role="alert">{{translate('Connexion impossible! Please double check your connexion data')}}</div>
+        </div>
+    </fieldset>
+</form>
+<br>
+<br>

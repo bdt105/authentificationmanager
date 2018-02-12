@@ -1,0 +1,12 @@
+{
+    "common":
+    {
+        "appName": "appName",
+        "homeUrl": "home",
+        "logToFile": true,
+        "logToConsole": true,
+        "authentificationApiBaseUrl": "http://145.239.75.15/auth/",
+        "language": "PT",
+        "contactEmail": "bdt105@gmail.com"
+    }
+}

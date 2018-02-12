@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { HomeComponent } from '../components/home/home.component';
+import { LoginComponent } from '../components/login/login.component';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
 
@@ -24,13 +25,17 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { MenuService } from '../services/menu.service';
+import { ConfigurationService } from '../services/configuration.service';
+import { TranslateService } from '../services/translate.service';
+import { ConnexionService } from '../services/connexion.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +45,8 @@ import { MenuService } from '../services/menu.service';
     HttpModule,
     SidebarModule.forRoot()
   ],
-  providers: [MenuService, AccordionConfig],
+  providers: [MenuService, AccordionConfig, ConfigurationService, TranslateService, ConnexionService],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

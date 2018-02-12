@@ -23,14 +23,16 @@
                     </div>
                 </li>
             </ul>
-            <form *ngIf="menu.inputZone" class="navbar-form navbar-right">
-                <div class="input-group">
-                    <input [(ngModel)]="inputZone" type="text" class="form-control" placeholder="{{menu.inputPlaceHolder}}" [ngModelOptions]="{standalone: true}">
-                    <span [routerLink]="inputZone ? menu.inputButtonHref + inputZone : '/'" class="input-group-addon">
-                        <button type="submit" style="background-color: transparent; border: 0px"><i class="fa fa-search"></i> {{menu.inputButtonLabel}}</button>
-                    </span>
-                </div>
-            </form>
+            <ul class="navbar-nav ml-auto">
+                <form *ngIf="menu.inputZone" class="navbar-form">
+                    <div class="input-group">
+                        <input [(ngModel)]="inputZone" type="text" class="form-control" placeholder="{{menu.inputPlaceHolder}}" [ngModelOptions]="{standalone: true}">
+                        <span [routerLink]="inputZone ? menu.inputButtonHref + inputZone : '/'" class="input-group-addon">
+                            <button type="submit" style="background-color: transparent; border: 0px"><i class="fa fa-search"></i> {{menu.inputButtonLabel}}</button>
+                        </span>
+                    </div>
+                </form>
+            </ul>
         </div>
     </div>
 </nav>

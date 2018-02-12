@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 
 import { GenericComponent } from '../../components/generic.component';
 import { MenuService } from '../../services/menu.service';
+import { ConfigurationService } from '../../services/configuration.service';
+import { TranslateService } from '../../services/translate.service';
 
 @Component({
     selector: 'sidebar',
@@ -17,8 +19,8 @@ export class SidebarComponent extends GenericComponent {
     connexion: any;
     menu: any;
 
-    constructor (private menuService: MenuService, private router: Router){
-        super();
+    constructor (private menuService: MenuService, private router: Router, public configurationService: ConfigurationService, public translateService: TranslateService){
+        super(configurationService, translateService);
     }
 
     @Output() menuClick: EventEmitter<string> = new EventEmitter<string>();
