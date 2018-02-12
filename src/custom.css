@@ -1,5 +1,5 @@
 .container {
-    width: 99%
+    width: 88%
 }
 
 .footer{
@@ -17,8 +17,9 @@ a:focus, a:hover{
 }
 
 .ng-sidebar--over {
-    box-shadow: 0 0 2.5em rgba(85, 85, 85, 0.5);
+    --box-shadow: 0 0 2.5em rgba(85, 85, 85, 0.5);
     width: 300px;
+    background: whitesmoke;
 }
 
 .sidebarMenu{

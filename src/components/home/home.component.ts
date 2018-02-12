@@ -1,6 +1,9 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { GenericComponent } from '../generic.component';
 
 import { MenuService } from '../../services/menu.service';
+import { ConfigurationService } from '../../services/configuration.service';
+import { TranslateService } from '../../services/translate.service';
 
 @Component({
     selector: 'home',
@@ -8,5 +11,15 @@ import { MenuService } from '../../services/menu.service';
     providers: [MenuService]
 })
 
-export class HomeComponent {
+export class HomeComponent extends GenericComponent{
+
+    constructor(public configurationService: ConfigurationService, public translateService: TranslateService){
+        super(configurationService, translateService);
+    }
+
+
+    ngOnInit(){
+        
+    }
+
 }

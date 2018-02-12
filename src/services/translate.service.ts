@@ -12,11 +12,13 @@ export class TranslateService {
     private language: string;
     private baseurl: string;
     private storageKey = "translate";
+    private baseUrl = "./assets/"
+    private url: string;
 
     constructor(private configurationService: ConfigurationService, private http: Http){
         this.language = this.configurationService.get().common.language;
-        this.init();
-        
+        this.url = this.baseUrl + this.storageKey + this.language + ".json";
+        this.init(this.language);
     }
 
     public translate (text: string){
@@ -31,8 +33,8 @@ export class TranslateService {
         return text;
     }
 
-    private init (){
-        
+    private init (language: string){
+        this.url = this.baseUrl + this.storageKey + language + ".json";
         this.http.get(this.url).subscribe(
             (data: any) => this.manageData(data),
             (error: any) => this.manageError(error)

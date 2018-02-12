@@ -18,15 +18,19 @@ export class ConnexionService {
     constructor(private http: Http, private configurationService: ConfigurationService, private translateService: TranslateService){
     }
 
-    public connect (callbackSuccess: Function, callbackFailure: Function, forever: boolean = false){
-        this.http.get(this.configurationService.get().common.authentificationApiBaseUrl + "get").subscribe(
+    public connect (callbackSuccess: Function, callbackFailure: Function, log: string, passwd: string, forever: boolean = false){
+        let body: any = {};
+        body.login = log;
+        body.password = passwd;
+        this.http.post(this.configurationService.get().common.authentificationApiBaseUrl + "get", body).subscribe(
             (data: any) => this.connexionSuccess(callbackSuccess, data, forever),
             (error: any) => this.connexionFailure(callbackFailure, error)
         );
     }
 
     private connexionSuccess(callback: Function, data: any, forever: boolean){
-        this.toolbox.writeToStorage(this.storageKey, data._body, forever);
+        let dat = JSON.parse(data._body);
+        this.saveConnexion(data._body, forever);
         if (callback){
             callback(data._body);
         }
@@ -38,7 +42,28 @@ export class ConnexionService {
         }    
     }
 
-    disconnect(){
+    public disconnect(){
+        this.removeConnexion();
+    }
+
+    public isConnected(){
+        let conn = this.get();
+        if (conn){
+            return conn.decoded != null;
+        }else{
+            return false;
+        }
+    }
+
+    public get(){
+        return this.toolbox.readFromStorage(this.storageKey);
+    }
+
+    public saveConnexion(connexion: any, forever: boolean = null){
+        this.toolbox.writeToStorage(this.storageKey, connexion, forever);
+    }
+    
+    public removeConnexion(){
         this.toolbox.removeFromStorage(this.storageKey);
     }
 
