@@ -7,6 +7,7 @@ import { GenericComponent } from '../../components/generic.component';
 import { TranslateService } from '../../services/translate.service';
 import { ConfigurationService } from '../../services/configuration.service';
 import { ConnexionService } from '../../services/connexion.service';
+import { UserService } from '../../services/user.service';
 import { FormValidationService } from '../../services/fromValidation.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
@@ -19,11 +20,16 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 export class UserComponent extends GenericComponent{
 
     public formGroup: any;
+    public formGroupPassword: any;
     public user: any = {};
     public isConnected = false;
 
+    public message: string;
+    public showAlert = false;
+
     constructor (public configurationService: ConfigurationService, public translateService: TranslateService, 
-        public formBuilder: FormBuilder, public formValidationService: FormValidationService, public connexionService: ConnexionService) {
+        public formBuilder: FormBuilder, public formValidationService: FormValidationService, public connexionService: ConnexionService,
+        public userService: UserService) {
         super(configurationService, translateService);
 
         this.init();
@@ -37,10 +43,6 @@ export class UserComponent extends GenericComponent{
         this.formGroup = this.formBuilder.group ({
             login: [this.user.login, [Validators.required]],
             email: [this.user.email, [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
-            pass: this.formBuilder.group({
-                password: ['', Validators.required],
-                confirmPassword: ['', Validators.required]
-            }, {validator: this.formValidationService.matchPassword}),
             lastname: [this.user.lastname, [Validators.required]],
             firstname: [this.user.firstname, [Validators.required]],
             phone: this.formBuilder.group({
@@ -59,6 +61,12 @@ export class UserComponent extends GenericComponent{
             }),
             organisation: [this.user.organisation]
         });
+        this.formGroupPassword = this.formBuilder.group ({
+            pass: this.formBuilder.group({
+                password: ['', Validators.required],
+                confirmPassword: ['', Validators.required]
+            }, {validator: this.formValidationService.matchPassword})
+        });
     }
 
     private setUser(){
@@ -73,8 +81,34 @@ export class UserComponent extends GenericComponent{
         }
     }
 
+    private successSave(data: any){
+        if (data){
+            if (data.affectedRows && data.affectedRows > 0){
+                this.showAlert = true;
+                this.message = this.translate("Successfully saved!");
+            }else{
+                if (data.insertedId && data.insertedId > 0){
+                    this.showAlert = true;
+                    this.message = this.translate("Successfully added!");
+                }else{
+                    this.showAlert = true;
+                    this.message = this.translate("Error while saving!" + JSON.stringify(data));
+                }
+            }
+        }else{
+            this.showAlert = true;
+            this.message = this.translate("Error while saving!");
+        }
+    }
+
+    private failureSave(error: any){
+        this.showAlert = true;
+        this.message = this.translate("Error while saving!" + JSON.stringify(error));
+    }
+
     save(){
         this.setUser();
+        this.userService.save((data: any) => this.successSave(data), (error: any) => this.failureSave(error), this.user);
         console.log(this.user);
     }
 

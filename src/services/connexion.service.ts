@@ -59,6 +59,16 @@ export class ConnexionService {
         return this.toolbox.readFromStorage(this.storageKey);
     }
 
+    public getToken(){
+        let conn = this.toolbox.readFromStorage(this.storageKey);
+        if (conn){
+            return conn.token;
+        }
+        return null;
+    }
+
+
+
     public saveConnexion(connexion: any, forever: boolean = null){
         this.toolbox.writeToStorage(this.storageKey, connexion, forever);
     }

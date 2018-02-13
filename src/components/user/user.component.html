@@ -1,3 +1,12 @@
+<div *ngIf="message && showAlert" >
+    <br>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{message}}</strong>
+        <button type="button" class="close" (click)="showAlert = false">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
 <h1>{{translate('User')}}</h1>
 <form *ngIf="isConnected" class="form-horizontal"  [formGroup]="formGroup" >
     <fieldset class="row">
@@ -9,13 +18,6 @@
             <label class="col-lg-2 control-label">{{translate('Email')}}</label>
             <input class="form-control col-lg-10" type="text" formControlName="email" placeholder="{{translate('Email')}}">
         </div>
-        <div class="form-group row" formGroupName="pass">
-            <label class="col-lg-2 control-label">{{translate('Password')}}</label>
-            <input class="form-control col-lg-4" type="text" formControlName="password" placeholder="{{translate('Password')}}">
-            <label class="col-lg-2 control-label">{{translate('Confirm password')}}</label>
-            <input class="form-control col-lg-4" type="text" formControlName="confirmPassword" placeholder="{{translate('Confirm password')}}">
-        </div>
-
         <div class="form-group row">
             <label class="col-lg-2 control-label">{{translate('Last name')}}</label>
             <input class="form-control col-lg-10" type="text" formControlName="lastname" placeholder="{{translate('Email')}}">
@@ -26,14 +28,13 @@
         </div>
         <div class="form-group row">
             <label class="col-lg-2 control-label">{{translate('Language')}}</label>
-            <select class="form-control col-lg-10" formControlName="language">
-                <option value="EN" selected>Anglais</option>
+            <select class="form-control col-lg-10" [(ngModel)]="user.language" formControlName="language">
+                <option value="EN">Anglais</option>
                 <option value="FR">Français</option>
                 <option value="ES">Espagnol</option>
                 <option value="PT">Portuguais</option>
             </select>
         </div>
-
         <div class="form-group row">
             <label class="col-lg-2 control-label">{{translate('Organisation')}}</label>
             <input class="form-control col-lg-10" type="text" formControlName="organisation" placeholder="{{translate('Organisation')}}">
@@ -59,7 +60,22 @@
         </div>
     </fieldset>
     <div class="form-group row">
-        <button type="reset" class="btn btn-default">{{translate('Cancel')}}</button>
-        &nbsp;<button type="submit" [disabled]="!formGroup.valid" class="btn btn-primary" (click)="save()">{{translate('Submit')}}</button>
+        <button type="submit" [disabled]="!formGroup.valid" class="btn btn-primary" (click)="save()">{{translate('Save')}}</button>
+    </div>
+</form>
+<br>
+<br>
+<h1>{{translate('Password')}}</h1>
+<form *ngIf="isConnected" class="form-horizontal"  [formGroup]="formGroupPassword" >
+    <fieldset class="row">
+        <div class="form-group row" formGroupName="pass">
+            <label class="col-lg-2 control-label">{{translate('Password')}}</label>
+            <input class="form-control col-lg-4" type="text" formControlName="password" placeholder="{{translate('Password')}}">
+            <label class="col-lg-2 control-label">{{translate('Confirm password')}}</label>
+            <input class="form-control col-lg-4" type="text" formControlName="confirmPassword" placeholder="{{translate('Confirm password')}}">
+        </div>
+    </fieldset>
+    <div class="form-group row">
+        <button type="submit" [disabled]="!formGroupPassword.valid" class="btn btn-primary" (click)="changePassword()">{{translate('Change password')}}</button>
     </div>
 </form>

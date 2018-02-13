@@ -20,27 +20,51 @@ export class UserService {
         private connexionService: ConnexionService){
     }
 
-    private saveSuccess(callback: Function, data: any, user: any){
+    private successSave(callbackSuccess: Function, callbackFailure: Function, data: any, user: any){
         let dat = JSON.parse(data._body);
-        let usr = this.toolbox.readFromStorage("connexion");
-        usr.decoded = user;
-        this.connexionService.saveConnexion(usr);
-        if (callback){
-            callback(data._body);
+        if (dat.status == "ERR"){
+            if (callbackFailure){
+                callbackFailure(dat);
+            }
+        }else{
+            let usr = this.toolbox.readFromStorage("connexion");
+            usr.decoded = user;
+            this.connexionService.saveConnexion(usr);
+            if (callbackSuccess){
+                callbackSuccess(dat);
+            }
         }
     }
 
-    private saveFailure(callback: Function, error: any){
+    private failureSave(callback: Function, error: any){
         if (callback){
             callback(error);
         }    
     }
 
-    public saveUser(callbackSuccess: Function, callbackFailure: Function, user: any){
+    public save(callbackSuccess: Function, callbackFailure: Function, user: any){
+        let token = this.connexionService.getToken();
+        let usr = this.toolbox.cloneObject(user);
+        //delete(usr.iat);
+        if (token && user){
+            let body: any = {};
+            body.token = token;
+            body.object = usr;
+            body.idFieldName = "iduser";
+            console.log(JSON.stringify(body));
+            this.http.put(this.configurationService.get().common.authentificationApiBaseUrl + "user", body).subscribe(
+                (data: any) => this.successSave(callbackSuccess, callbackFailure, data, user),
+                (error: any) => this.failureSave(callbackFailure, error)
+            );
+        }
+    }
+
+    public delete(callbackSuccess: Function, callbackFailure: Function, user: any){
+        let token = this.connexionService.getToken();        
         if (user){
-            this.http.put(this.configurationService.get().common.authentificationApiBaseUrl + "get", user).subscribe(
-                (data: any) => this.saveSuccess(callbackSuccess, data, user),
-                (error: any) => this.saveFailure(callbackFailure, error)
+            this.http.delete(this.configurationService.get().common.authentificationApiBaseUrl + "get", user).subscribe(
+                (data: any) => this.successSave(callbackSuccess, callbackFailure, data, user),
+                (error: any) => this.failureSave(callbackFailure, error)
             );
         }
     }
