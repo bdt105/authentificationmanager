@@ -5,7 +5,7 @@
         "homeUrl": "home",
         "logToFile": true,
         "logToConsole": true,
-        "authentificationApiBaseUrl": "http://localhost:3000/",
+        "authentificationApiBaseUrl": "http://145.239.75.15/auth/",
         "language": "PT",
         "contactEmail": "bdt105@gmail.com"
     }
