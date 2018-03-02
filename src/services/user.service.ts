@@ -45,7 +45,7 @@ export class UserService {
     public save(callbackSuccess: Function, callbackFailure: Function, user: any){
         let token = this.connexionService.getToken();
         let usr = this.toolbox.cloneObject(user);
-        //delete(usr.iat);
+        delete(usr.iat);
         if (token && user){
             let body: any = {};
             body.token = token;

@@ -60,12 +60,12 @@
             "title": "About",
             "submenu":[
                 {
-                    "label": "User",
+                    "label": "My profile",
                     "href": "/user",
                     "icon": "user"
                 },
                 {
-                    "label": "Login / logout",
+                    "label": "Sign in / sign out",
                     "href": "/login",
                     "icon": "sign-in"
                 },
