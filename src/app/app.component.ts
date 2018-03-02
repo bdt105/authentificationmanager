@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '../services/translate.service';
+import { ConnexionService } from '../services/connexion.service';
 
 @Component({
     selector: 'app-root',
@@ -8,10 +10,23 @@ import { Component } from '@angular/core';
 export class AppComponent {
 
     public sidebarOpened = false;
+
+    constructor(private translateService: TranslateService, private connexionService: ConnexionService){
+
+    }
     
     title = 'app';
     
-    toggleSidebar(event: any) {
+    public toggleSidebar(event: any) {
 		this.sidebarOpened = !this.sidebarOpened;
-	}
+    }
+    
+    public translate(text: string){
+        return this.translateService.translate(text);
+    }
+
+    public getCurrentUser(){
+        let usr = this.connexionService.getUser();
+        return usr;
+    }
 }

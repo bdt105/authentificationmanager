@@ -6,7 +6,7 @@
         "logToFile": true,
         "logToConsole": true,
         "authentificationApiBaseUrl": "http://145.239.75.15/auth/",
-        "language": "PT",
+        "language": "FR",
         "contactEmail": "bdt105@gmail.com"
     }
 }

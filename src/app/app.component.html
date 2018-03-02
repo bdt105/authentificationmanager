@@ -1,5 +1,5 @@
 <navbar (clickSidebarMenu)="toggleSidebar($event)"></navbar>
-<ng-sidebar-container style="height: 100vh;">
+<ng-sidebar-container style="height: 92vh;">
     <ng-sidebar [(opened)]="sidebarOpened" closeOnClickOutside="true" mode="over" [autoFocus]="false">
         <sidebar (menuClick)="sideMenuClick()"></sidebar>
     </ng-sidebar>
@@ -9,3 +9,11 @@
         </div>
     </div>
 </ng-sidebar-container>
+
+<div class="footer">
+    <small style="margin-left: 15px">
+        &copy; Company.
+        {{translate('Any questions or remarks please write to')}} <a href="mailto: ">contact@company.com</a>. 
+         <a routerLink="/login"><i class="fa fa-user"></i> {{getCurrentUser().email}}</a>.
+    </small>
+</div>

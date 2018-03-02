@@ -60,14 +60,12 @@ export class ConnexionService {
     }
 
     public getToken(){
-        let conn = this.toolbox.readFromStorage(this.storageKey);
+        let conn = this.get();
         if (conn){
             return conn.token;
         }
         return null;
     }
-
-
 
     public saveConnexion(connexion: any, forever: boolean = null){
         this.toolbox.writeToStorage(this.storageKey, connexion, forever);
@@ -75,6 +73,14 @@ export class ConnexionService {
     
     public removeConnexion(){
         this.toolbox.removeFromStorage(this.storageKey);
+    }
+
+    public getUser(){
+        let conn = this.get();
+        if (conn && conn.decoded){
+            return conn.decoded;
+        }
+        return null;
     }
 
 }
