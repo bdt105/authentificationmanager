@@ -1,21 +1,19 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { GenericComponent } from '../generic.component';
 
-import { MenuService } from '../../services/menu.service';
 import { ConfigurationService } from '../../services/configuration.service';
 import { TranslateService } from '../../services/translate.service';
 
 @Component({
-    selector: 'home',
-    templateUrl: './home.component.html',
-    providers: [MenuService]
+    selector: 'about',
+    templateUrl: './about.component.html',
+    providers: []
 })
 
-export class HomeComponent extends GenericComponent{
+export class AboutComponent extends GenericComponent{
 
     constructor(public configurationService: ConfigurationService, 
-        public translateService: TranslateService,
-        public menuService: MenuService){
+        public translateService: TranslateService){
         super(configurationService, translateService);
     }
 
@@ -24,12 +22,5 @@ export class HomeComponent extends GenericComponent{
         
     }
 
-    getApplicationTitle(){
-        let menu = this.menuService.getMenu();
-        if (menu){
-            return menu.title;
-        }
-        return null;
-    }
 
 }

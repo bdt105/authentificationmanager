@@ -1,7 +1,0 @@
-<div *ngIf="!isConnected" class="alert alert-danger">
-    {{translate('You are not connected.')}}
-</div>
-<div *ngIf="isConnected" class="alert alert-success">
-    {{translate('You are connected as') + ' ' + connected.firstname + ' ' + connected.lastname + '.'}}
-    <span style="cursor: pointer" (click)="disconnect()">{{translate('Disconnect')}}</span> 
-</div>

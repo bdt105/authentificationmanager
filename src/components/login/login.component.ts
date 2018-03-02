@@ -4,11 +4,11 @@ import { Http } from '@angular/http';
 import { Toolbox } from 'bdt105toolbox/dist';
 
 import { GenericComponent } from '../../components/generic.component';
-import { LoginMessageComponent } from '../../components/login/loginMessage.component';
 import { TranslateService } from '../../services/translate.service';
 import { ConfigurationService } from '../../services/configuration.service';
 import { ConnexionService } from '../../services/connexion.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { MenuService } from '../../services/menu.service';
 
 @Component({
     selector: 'login',
@@ -23,9 +23,8 @@ export class LoginComponent extends GenericComponent{
     data: any;
     contactEmail: string;
     loading = false;
+    connexionAttempt = false;
     
-    @ViewChild(LoginMessageComponent) loginMessage: LoginMessageComponent;
-
     public formGroup: any;
     private toolbox: Toolbox = new Toolbox();
     public isConnected = false;
@@ -56,6 +55,7 @@ export class LoginComponent extends GenericComponent{
     }
     
     private connect (){
+        this.connexionAttempt = true;
         this.loading = true;
         this.connexionService.connect(
             (data: any) => this.connexionSuccess(data),
@@ -72,8 +72,7 @@ export class LoginComponent extends GenericComponent{
             let dat = JSON.parse(data);
             if (dat.decoded){
                 this.connected.emit(data);
-                this.router.navigate[this.configurationService.get().common.homeUrl];
-                this.refresh();
+                this.router.navigate([this.configurationService.get().common.homeUrl]);
             }else{
                 this.connexionFailure(null);
             }
@@ -88,13 +87,21 @@ export class LoginComponent extends GenericComponent{
 
     private refresh(){
         this.isConnected = this.connexionService.isConnected();
-        this.loginMessage.refresh();
     }
 
     disconnect(){
+        this.connexionAttempt = false;
         this.connexionService.disconnect();
         this.disconnected.emit(null);
         this.refresh();
+    }
+
+    getCurrentUser(){
+        return this.connexionService.getUser();
+    }
+
+    getApplicationName(){
+        return this.configurationService.get().common.applicationName;
     }
 
 }

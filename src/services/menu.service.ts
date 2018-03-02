@@ -23,6 +23,7 @@ export class MenuService {
     private manageData (callback: any, data: any){
         this.toolbox.log(data);
         this.menu = this.toolbox.parseJson(data._body);
+        this.toolbox.writeToStorage("menus", this.menu, false);
         if (callback){
             callback(this.menu);
         }
@@ -34,5 +35,9 @@ export class MenuService {
             callback(error);
         }
     };
+
+    public getMenu(){
+        return this.toolbox.readFromStorage("menus");
+    }
 
 }

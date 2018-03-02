@@ -1,28 +1,27 @@
 # Angulartemplate
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.4.
+## Prerequists
+Install Angular 5.x on your computer
 
-## Development server
+## Dependencies
+Angular 5.x
+ngx-bootstrap
+bootstrap (4.x)
+bdt105toolbox
+ng-sidebar
+font-awesome
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Installation
+Clone this repository to get a ready to go angular application (5.x).
+then 
+```npm install```
+```ng serve```
 
-## Code scaffolding
+## Navbar and sidebar
+A nav bar and side are included. You may change the content of the menus by customizing ./assets/menu.json
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Application logo
+Change the application logo in ./assets/menu.json, ./assets/index.html and ./assets/configuration.json
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-# angulartemplate
+## Translations
+Add ./assets/translateXX.json file to translate. Default language is defined in ./assets/configuration.json

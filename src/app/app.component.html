@@ -1,19 +1,19 @@
-<navbar (clickSidebarMenu)="toggleSidebar($event)"></navbar>
-<ng-sidebar-container style="height: 92vh;">
+<navbar *ngIf="isConnected()" (clickSidebarMenu)="toggleSidebar($event)"></navbar>
+<ng-sidebar-container style="height: 93.8vh;">
     <ng-sidebar [(opened)]="sidebarOpened" closeOnClickOutside="true" mode="over" [autoFocus]="false">
         <sidebar (menuClick)="sideMenuClick()"></sidebar>
     </ng-sidebar>
     <div ng-sidebar-content>
-        <div class="container">
+        <div class="appContainer">
             <router-outlet></router-outlet>
         </div>
     </div>
 </ng-sidebar-container>
 
-<div class="footer">
+<!-- <div class="footer">
     <small style="margin-left: 15px">
         &copy; Company.
         {{translate('Any questions or remarks please write to')}} <a href="mailto: ">contact@company.com</a>. 
-         <a routerLink="/login"><i class="fa fa-user"></i> {{getCurrentUser().email}}</a>.
+         <a routerLink="/login"><i class="fa fa-user"></i> {{getCurrentUser() ? getCurrentUser().email : ""}}</a>.
     </small>
-</div>
+</div> -->

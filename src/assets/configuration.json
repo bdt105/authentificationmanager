@@ -1,8 +1,8 @@
 {
     "common":
     {
-        "appName": "appName",
-        "homeUrl": "home",
+        "applicationName": "appName",
+        "homeUrl": "/home",
         "logToFile": true,
         "logToConsole": true,
         "authentificationApiBaseUrl": "http://145.239.75.15/auth/",

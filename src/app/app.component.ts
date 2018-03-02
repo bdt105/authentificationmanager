@@ -29,4 +29,8 @@ export class AppComponent {
         let usr = this.connexionService.getUser();
         return usr;
     }
+
+    public isConnected(){
+        return this.connexionService.isConnected();
+    }
 }

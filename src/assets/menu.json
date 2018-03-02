@@ -1,30 +1,32 @@
 {
-    "title": "REST Player 222",
+    "title": "appName",
     "contactEmail": "bernard.deregnaucourt@vidal.fr",
     "copyright": "",
     "version": "v1.0",
-    "logo": "",
-    "logoHref": "#!/home",
-    "startPage": "#!/home",
+    "logo": "./assets/logo.png",
+    "logoHref": "/home",
     "brand": "Marque",
     "inputZone": true,
     "inputButtonLabel": "",
     "inputButtonIcon": "search",
     "inputPlaceHolder": "Search in help...",
     "inputButtonHref": "/help/",
+    "aboutHref": "/about",
     "navbarMenu":
     [
         {
             "label": "Menu 1",
             "href": "/help",
             "icon": "life-ring",
-            "title": "Help !"
+            "title": "Help !",
+            "align": "left"
         },
         {
             "label": "Menu 2",
             "href": "/play",
             "icon": "play",
-            "title": "Play a query"
+            "title": "Play a query",
+            "align": "right"
         },
         {
             "label": "Menu3",
@@ -52,10 +54,30 @@
             ]
         },
         {
-            "label": "Menu 4",
-            "href": "/plays",
-            "icon": "forward",
-            "title": "Play some queries"
+            "label": "",
+            "href": "/about",
+            "image": "./assets/logo.png",
+            "title": "About",
+            "submenu":[
+                {
+                    "label": "User",
+                    "href": "/user",
+                    "icon": "user"
+                },
+                {
+                    "label": "Login / logout",
+                    "href": "/login",
+                    "icon": "sign-in"
+                },
+                {
+                    "label": "divider"
+                },
+                {
+                    "label": "About",
+                    "href": "/about",
+                    "icon": "star"
+                }
+            ]
         }
     ],
     "sidebarMenu":

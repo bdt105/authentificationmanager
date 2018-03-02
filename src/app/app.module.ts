@@ -6,16 +6,16 @@ import { HttpModule } from '@angular/http';
 
 // Components
 import { HomeComponent } from '../components/home/home.component';
+import { AboutComponent } from '../components/about/about.component';
 import { LoginComponent } from '../components/login/login.component';
-import { LoginMessageComponent } from '../components/login/loginMessage.component';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
 import { UserComponent } from '../components/user/user.component';
 
-// Sidebar module
+// Sidebar module https://github.com/arkon/ng-sidebar
 import { SidebarModule } from 'ng-sidebar';
 
-// Bootstrap components
+// Bootstrap components https://valor-software.com/ngx-bootstrap
 import { AccordionModule, AccordionConfig } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap';
 import { TypeaheadModule } from 'ngx-bootstrap';
@@ -50,7 +50,7 @@ export function init (config: ConfigurationService) {
         SidebarComponent,
         LoginComponent,
         UserComponent,
-        LoginMessageComponent
+        AboutComponent
     ],
     imports: [
         BrowserModule,

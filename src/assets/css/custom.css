@@ -1,5 +1,7 @@
-.container {
-    width: 88%
+.appContainer {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .footer{
@@ -7,7 +9,7 @@
     position: fixed;
     left: 0px;
     bottom: 0px;
-    height: 20px;
+    height: 25px;
     width: 100%;
     background:#e7e7e7;
 }
@@ -23,14 +25,14 @@ a:focus, a:hover{
 }
 
 .sidebarMenu{
-    margin-top: 15px;
     margin-bottom: 10px;
-    margin-left: 15px;
+    margin-left: 23px;
 }
 
 .sidebarBranch>.card {
     box-shadow: none;
     border-color: transparent;
+    background: whitesmoke;
 }
 
 .sidebarBranch>.panel-default>.panel-heading>.panel-title{
@@ -51,9 +53,10 @@ a:focus, a:hover{
 
 .sidebarSubmenu{
     margin-left: 15px;
+    margin-top: 5px;
     margin-bottom: 10px;
     border: 1px;
-    font-size: 1.1em;
+    font-size: 1em;
     color: black;
 }
 
@@ -118,48 +121,6 @@ a.notificationRedText {
     color: whitesmoke;
 }
 
-.patientsContainer{
-    display: flex;
-    flex-direction: column; 
-    flex-wrap: wrap;
-    height: 75vh;
+.panel{
+    margin-top: 10px;
 }
-
-@media (max-width: 700px){
-    .patientsContainer{
-        flex-wrap: nowrap;
-    }
-}
-
-.patientsItem{
-    margin: 5px;
-}
-
-.tagsItem{
-    margin: 5px; 
-}
-
-.tagsContainer{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.tagTitle{
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 5px;
-    font-size: small;
-    font-style: italic;
-}
-
-.stripe-2 {
-    color: white;
-    background: repeating-linear-gradient(
-      45deg,
-      #e6e6e6,
-      #e6e6e6 10px,
-      #b1b1b1 10px,
-      #b1b1b1 20px
-    );
-  }
-  
