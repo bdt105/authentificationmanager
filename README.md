@@ -1,10 +1,11 @@
 # Angulartemplate
 
 ## Prerequists
-Install Angular 5.x on your computer
+Install Angular 5.x on your computer.
+The connexion and authorisation is done thanks to connexion API in project https://github.com/bdt105/authentificationapi. There for a server running theses apis is needed if full aunthentification funcionality is required.
 
 ## Dependencies
-Angular 5.x
+Angular (5.x)
 ngx-bootstrap
 bootstrap (4.x)
 bdt105toolbox

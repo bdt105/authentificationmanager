@@ -26,6 +26,16 @@ export class ConnexionService {
             (data: any) => this.connexionSuccess(callbackSuccess, data, forever),
             (error: any) => this.connexionFailure(callbackFailure, error)
         );
+        // Fake connexion
+        // let fakeUser = this.getFakeUser();
+    }
+
+    private getFakeUser(){
+        return {
+            "iduser": 1,
+            "lastName": "fake",
+            "firstName": "fake"
+        }
     }
 
     private connexionSuccess(callback: Function, data: any, forever: boolean){
