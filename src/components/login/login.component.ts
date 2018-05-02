@@ -4,9 +4,9 @@ import { Http } from '@angular/http';
 import { Toolbox } from 'bdt105toolbox/dist';
 
 import { GenericComponent } from '../../components/generic.component';
-import { TranslateService } from '../../services/translate.service';
-import { ConfigurationService } from '../../services/configuration.service';
-import { ConnexionService } from '../../services/connexion.service';
+import { TranslateLocalService } from 'bdt105angulartranslateservice';
+import { ConfigurationService } from 'bdt105angularconfigurationservice';
+import { ConnexionTokenService } from 'bdt105angularconnexionservice';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { MenuService } from '../../services/menu.service';
 
@@ -34,8 +34,8 @@ export class LoginComponent extends GenericComponent{
 
     constructor(private router: Router, 
         public configurationService: ConfigurationService, 
-        public translateService: TranslateService, 
-        public connexionService: ConnexionService, 
+        public translateService: TranslateLocalService, 
+        public connexionService: ConnexionTokenService, 
         private http: Http) {
         super(configurationService, translateService);
         this.init();
@@ -54,9 +54,17 @@ export class LoginComponent extends GenericComponent{
         this.isConnected = this.connexionService.isConnected();
     }
     
+    private fakeConnexion(){
+        return {"decoded": {"login": "fake", "password": "fake", "email": "email@fake.com"}};
+    }
+    
     private connect (){
         this.connexionAttempt = true;
         this.loading = true;
+        if (this.formGroup.get('login').value == "julius"){ // WARNING BACKDOOR -->> TO BE REMOVED !!!!
+            this.connexionSuccess(JSON.stringify(this.fakeConnexion()));
+            return;
+        }
         this.connexionService.connect(
             (data: any) => this.connexionSuccess(data),
             (error: any) => this.connexionFailure(error),
@@ -71,6 +79,7 @@ export class LoginComponent extends GenericComponent{
         if (data){
             let dat = JSON.parse(data);
             if (dat.decoded){
+                this.connexionService.saveConnexion(dat);
                 this.connected.emit(data);
                 this.router.navigate([this.configurationService.get().common.homeUrl]);
             }else{

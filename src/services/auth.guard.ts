@@ -1,16 +1,18 @@
 import { Injectable } from "@angular/core";
 
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from "@angular/router";
-import { ConfigurationService } from './configuration.service';
 import { Toolbox } from "bdt105toolbox/dist";
-import { ConnexionService } from './connexion.service';
+
+import { ConfigurationService } from 'bdt105angularconfigurationservice';
+import { TranslateLocalService } from 'bdt105angulartranslateservice';
+import { ConnexionTokenService } from 'bdt105angularconnexionservice';
 
 @Injectable()
 export class AuthGuard implements CanActivate{
 
     private toolbox: Toolbox = new Toolbox();
     
-    constructor(private router: Router, private configurationService: ConfigurationService, public connexionService: ConnexionService){
+    constructor(private router: Router, private configurationService: ConfigurationService, public connexionService: ConnexionTokenService){
 
     }
 

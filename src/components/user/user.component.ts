@@ -4,9 +4,9 @@ import { Http } from '@angular/http';
 import { Toolbox } from 'bdt105toolbox/dist';
 
 import { GenericComponent } from '../../components/generic.component';
-import { TranslateService } from '../../services/translate.service';
-import { ConfigurationService } from '../../services/configuration.service';
-import { ConnexionService } from '../../services/connexion.service';
+import { ConfigurationService } from 'bdt105angularconfigurationservice';
+import { TranslateLocalService } from 'bdt105angulartranslateservice';
+import { ConnexionTokenService } from 'bdt105angularconnexionservice';
 import { UserService } from '../../services/user.service';
 import { FormValidationService } from '../../services/fromValidation.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
@@ -27,8 +27,8 @@ export class UserComponent extends GenericComponent{
     public message: string;
     public showAlert = false;
 
-    constructor (public configurationService: ConfigurationService, public translateService: TranslateService, 
-        public formBuilder: FormBuilder, public formValidationService: FormValidationService, public connexionService: ConnexionService,
+    constructor (public configurationService: ConfigurationService, public translateService: TranslateLocalService, 
+        public formBuilder: FormBuilder, public formValidationService: FormValidationService, public connexionService: ConnexionTokenService,
         public userService: UserService) {
         super(configurationService, translateService);
 
@@ -38,7 +38,7 @@ export class UserComponent extends GenericComponent{
     init(){
         this.isConnected = this.connexionService.isConnected();
         if (this.isConnected){
-            this.user = this.connexionService.get().decoded;
+            this.user = this.connexionService.getUser();
         }
         this.formGroup = this.formBuilder.group ({
             login: [this.user.login, [Validators.required]],

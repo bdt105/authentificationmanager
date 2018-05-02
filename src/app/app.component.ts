@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { TranslateService } from '../services/translate.service';
-import { ConnexionService } from '../services/connexion.service';
+import { TranslateLocalService } from 'bdt105angulartranslateservice';
+import { ConnexionTokenService } from 'bdt105angularconnexionservice';
 
 @Component({
     selector: 'app-root',
@@ -11,7 +11,7 @@ export class AppComponent {
 
     public sidebarOpened = false;
 
-    constructor(private translateService: TranslateService, private connexionService: ConnexionService){
+    constructor(private translateService: TranslateLocalService, private connexionService: ConnexionTokenService){
 
     }
     

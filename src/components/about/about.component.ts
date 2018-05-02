@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { GenericComponent } from '../generic.component';
 
-import { ConfigurationService } from '../../services/configuration.service';
-import { TranslateService } from '../../services/translate.service';
+import { TranslateLocalService } from 'bdt105angulartranslateservice';
+import { ConfigurationService } from 'bdt105angularconfigurationservice';
 
 @Component({
     selector: 'about',
@@ -13,7 +13,7 @@ import { TranslateService } from '../../services/translate.service';
 export class AboutComponent extends GenericComponent{
 
     constructor(public configurationService: ConfigurationService, 
-        public translateService: TranslateService){
+        public translateService: TranslateLocalService){
         super(configurationService, translateService);
     }
 

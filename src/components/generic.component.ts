@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { TranslateService } from '../services/translate.service';
-import { ConfigurationService } from '../services/configuration.service';
+
+import { TranslateLocalService } from 'bdt105angulartranslateservice';
+import { ConfigurationService } from 'bdt105angularconfigurationservice';
 
 export class GenericComponent implements OnInit{
 
@@ -14,11 +15,16 @@ export class GenericComponent implements OnInit{
     //     this.canDisplay = false;
     // }
 
-    constructor(public configurationService: ConfigurationService, public translateService: TranslateService){
-        // this.configurationService.init((data: any) => this.canDisplaySuccess(data), (error: any) => this.canDisplayFailure(error));
+    constructor(public configurationService: ConfigurationService, public translateService: TranslateLocalService){
+
     }
 
     ngOnInit(){
+
+    }
+
+
+    loadTranslation(){
 
     }
 

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Toolbox } from 'bdt105toolbox/dist';
 import { Http } from '@angular/http';
 
-import { TranslateService } from './translate.service';
-import { ConfigurationService } from './configuration.service';
-import { ConnexionService } from './connexion.service';
+import { TranslateLocalService } from 'bdt105angulartranslateservice';
+import { ConfigurationService } from 'bdt105angularconfigurationservice';
+import { ConnexionTokenService } from 'bdt105angularconnexionservice';
 
 @Injectable()
 export class UserService {
@@ -16,8 +16,8 @@ export class UserService {
     private url = './assets/translate' + this.language + '.json';
     private storageKey = "connexion";
 
-    constructor(private http: Http, private configurationService: ConfigurationService, private translateService: TranslateService, 
-        private connexionService: ConnexionService){
+    constructor(private http: Http, private configurationService: ConfigurationService, private translateService: TranslateLocalService, 
+        private connexionService: ConnexionTokenService){
     }
 
     private successSave(callbackSuccess: Function, callbackFailure: Function, data: any, user: any){

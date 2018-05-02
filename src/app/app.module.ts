@@ -28,17 +28,31 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { MenuService } from '../services/menu.service';
-import { ConfigurationService } from '../services/configuration.service';
-import { TranslateService } from '../services/translate.service';
-import { ConnexionService } from '../services/connexion.service';
+import { ConnexionService, ConnexionTokenService } from 'bdt105angularconnexionservice';
+import { TranslateLocalService } from 'bdt105angulartranslateservice';
+import { DatabaseService } from 'bdt105angulardatabaseservice';
+import { ConfigurationService } from 'bdt105angularconfigurationservice';
 import { UserService } from '../services/user.service';
 import { FormValidationService } from '../services/fromValidation.service';
 import { AuthGuard } from '../services/auth.guard';
 
-export function init (config: ConfigurationService) {
-    config.load();
+export function init (config: ConfigurationService, trans: TranslateLocalService) {
+    let callback1 = ()=>{
+        trans.language = config.get().common.language;
+        let callbackTrans1 = ()=>{
+
+        }
+        let callbackTrans0 = ()=>{
+            
+        }
+        trans.init(callbackTrans1, callbackTrans0);
+    }
+    let callback0 = ()=>{
+        console.log("Error loading configuration !");
+    }
+    config.init(callback1, callback0);
     return () => {
-        return config.load(); // add return
+        return config.load(); // Waits for 2 second that everything gets loaded
     };
 }
 
@@ -65,11 +79,11 @@ export function init (config: ConfigurationService) {
         {
             'provide': APP_INITIALIZER,
             'useFactory': init,
-            'deps': [ ConfigurationService ],
+            'deps': [ ConfigurationService, TranslateLocalService ],
             'multi': true
         },
-        AuthGuard, MenuService, AccordionConfig, ConfigurationService, TranslateService, 
-            ConnexionService, FormValidationService, UserService],
+        AuthGuard, MenuService, AccordionConfig, ConfigurationService, TranslateLocalService, 
+            ConnexionService, FormValidationService, UserService, DatabaseService, ConnexionTokenService],
         bootstrap: [ AppComponent ]
     })
 

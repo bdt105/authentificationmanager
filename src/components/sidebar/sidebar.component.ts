@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 
 import { GenericComponent } from '../../components/generic.component';
 import { MenuService } from '../../services/menu.service';
-import { ConfigurationService } from '../../services/configuration.service';
-import { TranslateService } from '../../services/translate.service';
+import { ConfigurationService } from 'bdt105angularconfigurationservice';
+import { TranslateLocalService } from 'bdt105angulartranslateservice';
 
 @Component({
     selector: 'sidebar',
@@ -19,7 +19,7 @@ export class SidebarComponent extends GenericComponent {
     connexion: any;
     menu: any;
 
-    constructor (private menuService: MenuService, private router: Router, public configurationService: ConfigurationService, public translateService: TranslateService){
+    constructor (private menuService: MenuService, private router: Router, public configurationService: ConfigurationService, public translateService: TranslateLocalService){
         super(configurationService, translateService);
     }
 

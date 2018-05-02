@@ -26,3 +26,6 @@ Change the application logo in ./assets/menu.json, ./assets/index.html and ./ass
 
 ## Translations
 Add ./assets/translateXX.json file to translate. Default language is defined in ./assets/configuration.json
+
+# WARNING !
+Please remove backdoor in login.composition.ts

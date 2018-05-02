@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Toolbox } from 'bdt105toolbox/dist';
 import { Http } from '@angular/http';
-import { ConfigurationService } from './configuration.service';
+import { ConfigurationService } from 'bdt105angularconfigurationservice';
 
 @Injectable()
-export class TranslateService {
+export class TranslateLocalService {
 
     private toolbox: Toolbox = new Toolbox(); 
     private translateData : any; 
