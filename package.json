@@ -21,7 +21,7 @@
     "@angular/platform-browser": "^5.2.7",
     "@angular/platform-browser-dynamic": "^5.2.7",
     "@angular/router": "^5.2.7",
-    "bdt105toolbox": "^1.0.65",
+    "bdt105toolbox": "^1.0.85",
     "bdt105angularconfigurationservice": "~1.0.3",
     "bdt105angularconnexionservice": "~1.0.23",
     "bdt105angulartranslateservice": "~1.0.21",

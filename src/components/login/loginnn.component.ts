@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Http } from '@angular/http';
 import { Toolbox } from 'bdt105toolbox/dist';
 
@@ -8,15 +8,17 @@ import { TranslateLocalService } from 'bdt105angulartranslateservice';
 import { ConfigurationService } from 'bdt105angularconfigurationservice';
 import { ConnexionTokenService } from 'bdt105angularconnexionservice';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { MenuService } from '../../services/menu.service';
+import { UserService } from '../../services/user.service';
+
+declare const gapi : any;
 
 @Component({
-    selector: 'login',
-    templateUrl: './login.component.html',
+    selector: 'loginnn',
+    templateUrl: './loginnn.component.html',
     providers: []
 })
 
-export class LoginComponent extends GenericComponent{
+export class LoginnnComponent extends GenericComponent{
     login: string;
     password: string;
     rememberMe: boolean;
@@ -28,6 +30,11 @@ export class LoginComponent extends GenericComponent{
     public formGroup: any;
     private toolbox: Toolbox = new Toolbox();
     public isConnected = false;
+    public wrongLogin = false;
+    public newUser: any;
+
+    private landPage: string;
+    public showNewAccount: boolean = false;
 
     @Output() connected: EventEmitter<any> = new EventEmitter<any>();
     @Output() disconnected: EventEmitter<any> = new EventEmitter<any>();
@@ -36,9 +43,12 @@ export class LoginComponent extends GenericComponent{
         public configurationService: ConfigurationService, 
         public translateService: TranslateLocalService, 
         public connexionService: ConnexionTokenService, 
-        private http: Http) {
+        public userService: UserService,
+        private http: Http, private activatedRoute: ActivatedRoute) {
         super(configurationService, translateService);
+        this.connexionService.authentificationApiBaseUrl = this.configurationService.get().common.authentificationApiBaseUrl;
         this.init();
+
     }
 
     init(){
@@ -52,15 +62,25 @@ export class LoginComponent extends GenericComponent{
     ngOnInit(){
         this.contactEmail = this.configurationService.get().common.contactEmail;
         this.isConnected = this.connexionService.isConnected();
+        this.activatedRoute.params.subscribe(params => {
+            this.getParams();
+        });       
     }
+    
+    getParams (){
+        if (this.activatedRoute.snapshot.params["landPage"]){
+            this.landPage = this.activatedRoute.snapshot.params["landPage"];
+        }
+    }    
     
     private fakeConnexion(){
         return {"decoded": {"login": "fake", "password": "fake", "email": "email@fake.com"}};
     }
     
-    private connect (){
+    connect (){
         this.connexionAttempt = true;
         this.loading = true;
+        this.wrongLogin = false;        
         if (this.formGroup.get('login').value == "julius"){ // WARNING BACKDOOR -->> TO BE REMOVED !!!!
             this.connexionSuccess(JSON.stringify(this.fakeConnexion()));
             return;
@@ -76,12 +96,16 @@ export class LoginComponent extends GenericComponent{
 
     private connexionSuccess(data: any){
         this.loading = false;
-        if (data){
+        if (data && this.toolbox.isJson(data)){
             let dat = JSON.parse(data);
+            dat.type = "connexion";
+            dat.rememberMe = this.formGroup.get('rememberMe').value;
+            parent.postMessage(dat, "*");
+            console.log(dat);
             if (dat.decoded){
-                this.connexionService.saveConnexion(dat);
+                this.connexionService.saveConnexion(dat, true);
                 this.connected.emit(data);
-                this.router.navigate([this.configurationService.get().common.homeUrl]);
+                this.refresh();
             }else{
                 this.connexionFailure(null);
             }
@@ -91,6 +115,7 @@ export class LoginComponent extends GenericComponent{
     private connexionFailure = function(data: any){
         this.loading = false;
         this.disconnected.emit(null);
+        this.wrongLogin = true;
         this.refresh();
     }
 
@@ -99,18 +124,57 @@ export class LoginComponent extends GenericComponent{
     }
 
     disconnect(){
+        this.wrongLogin = false;
+        
         this.connexionAttempt = false;
         this.connexionService.disconnect();
         this.disconnected.emit(null);
+        parent.postMessage(null, "*");
         this.refresh();
     }
 
     getCurrentUser(){
-        return this.connexionService.getUser();
+        return this.connexionService.get().decoded;
     }
 
     getApplicationName(){
         return this.configurationService.get().common.applicationName;
     }
 
+    googleLogin() {
+        let googleAuth = gapi.auth2.getAuthInstance();
+        googleAuth.then(() => {
+            googleAuth.signIn({scope: 'profile email', prompt: 'select_account'}).then(googleUser => {
+                let dat: any = {};
+                dat.googleSignIn = true;
+                dat.type = "connexion";
+                dat.decoded = googleUser.getBasicProfile();
+                dat.decoded.email = dat.decoded.U3; 
+                dat.decoded.firstname = dat.decoded.ofa;
+                dat.decoded.lastname = dat.decoded.wea;
+                dat.decoded.image = dat.decoded.Paa;
+                parent.postMessage(dat, "*");
+                this.connexionService.saveConnexion(dat, true);
+                this.connected.emit(dat);
+                this.refresh();
+                console.log(dat);
+            });
+        });
+    }    
+
+    newAccount(){
+        this.newUser = {};
+        this.newUser.email = this.formGroup.get('login').value;
+        this.newUser.login = this.formGroup.get('login').value;
+        this.showNewAccount = !this.showNewAccount;
+    }
+
+    userCreated(user: any){
+        let dat: any = {};
+        dat.newlyCreated = true;
+        dat.type = "connexion";
+        dat.rememberMe = this.formGroup.get('rememberMe').value;
+        dat.decoded = user;
+        parent.postMessage(dat, "*");
+    }
 }

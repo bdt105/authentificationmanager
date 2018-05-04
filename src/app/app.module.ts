@@ -7,10 +7,11 @@ import { HttpModule } from '@angular/http';
 // Components
 import { HomeComponent } from '../components/home/home.component';
 import { AboutComponent } from '../components/about/about.component';
-import { LoginComponent } from '../components/login/login.component';
+import { LoginnnComponent } from '../components/login/loginnn.component';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
-import { UserComponent } from '../components/user/user.component';
+import { UserCompleteComponent } from '../components/user/userComplete.component';
+import { UserCreateComponent } from '../components/user/userCreate.component';
 
 // Sidebar module https://github.com/arkon/ng-sidebar
 import { SidebarModule } from 'ng-sidebar';
@@ -62,8 +63,9 @@ export function init (config: ConfigurationService, trans: TranslateLocalService
         HomeComponent,
         NavbarComponent,
         SidebarComponent,
-        LoginComponent,
-        UserComponent,
+        LoginnnComponent,
+        UserCreateComponent,
+        UserCompleteComponent,
         AboutComponent
     ],
     imports: [

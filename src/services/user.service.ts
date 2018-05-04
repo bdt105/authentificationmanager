@@ -68,4 +68,47 @@ export class UserService {
             );
         }
     }
+
+    public encrypt(callbackSuccess: Function, callbackFailure: Function, text: string){
+        let token = this.connexionService.getToken(); 
+        let body = {"token": token, "text": text};       
+        if (text){
+            this.http.post(this.configurationService.get().common.authentificationApiBaseUrl + "encrypt", body).subscribe(
+                (data: any) => callbackSuccess(data),
+                (error: any) => callbackFailure(error)
+            );
+        }
+    }
+    
+    public set(formGroup: any, user: any){
+        for (var key in formGroup.controls){
+            if (formGroup.controls[key].controls){
+                for (var key1 in formGroup.controls[key].controls){
+                    user[key1] = formGroup.controls[key].controls[key1].value;
+                }
+            }else{
+                user[key] = formGroup.controls[key].value;
+            }
+        }
+        return user;
+    }
+
+    public sendGmailEmail(callbackSuccess: Function, callbackFailure: Function, token: string, subject: string, message: string){
+        if (token && message){
+            let body = {"token": token, "message": message, "subject": subject};
+            this.http.post(this.configurationService.get().common.authentificationApiBaseUrl + "user/email", body).subscribe(
+                (data: any) => callbackSuccess(data),
+                (error: any) => callbackFailure(error)
+            );
+        }
+    }
+
+    public getNewUser(){
+        let date = this.toolbox.dateToDbString(new Date());
+        let user: any = {};
+        user.type = 0;
+        user.creationdate = date;
+        user.updatedate = date;
+        return user;
+    }
 }

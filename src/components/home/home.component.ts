@@ -19,9 +19,8 @@ export class HomeComponent extends GenericComponent{
         super(configurationService, translateService);
     }
 
-
     ngOnInit(){
-        
+        let t = "toto";
     }
 
     getApplicationTitle(){
