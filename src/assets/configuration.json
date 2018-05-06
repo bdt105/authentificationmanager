@@ -5,7 +5,7 @@
         "homeUrl": "/home",
         "logToFile": true,
         "logToConsole": true,
-        "authentificationApiBaseUrl": "http://145.239.75.15/auth/",
+        "authentificationApiBaseUrl": "http://vps453669.ovh.net/auth/",
         "language": "FR",
         "contactEmail": "bdt105@gmail.com"
     }

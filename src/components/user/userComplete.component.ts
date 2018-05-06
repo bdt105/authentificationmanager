@@ -4,12 +4,11 @@ import { Http } from '@angular/http';
 import { Toolbox } from 'bdt105toolbox/dist';
 
 import { UserComponent } from '../../components/user/user.component';
-import { ConfigurationService } from 'bdt105angularconfigurationservice';
-import { TranslateLocalService } from 'bdt105angulartranslateservice';
 import { ConnexionTokenService } from 'bdt105angularconnexionservice';
 import { UserService } from '../../services/user.service';
 import { FormValidationService } from '../../services/fromValidation.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { MiscellaneousService } from '../../services/miscellaneous.service';
 
 @Component({
     selector: 'userComplete',
@@ -19,10 +18,9 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 
 export class UserCompleteComponent extends UserComponent{
 
-    constructor (public configurationService: ConfigurationService, public translateService: TranslateLocalService, 
-        public formBuilder: FormBuilder, public formValidationService: FormValidationService, public connexionService: ConnexionTokenService,
-        public userService: UserService) {
-        super(configurationService, translateService, formBuilder, formValidationService, connexionService, userService);
+    constructor (public formBuilder: FormBuilder, public formValidationService: FormValidationService, public connexionService: ConnexionTokenService,
+        public userService: UserService, miscellaneousService: MiscellaneousService) {
+        super(formBuilder, formValidationService, connexionService, userService, miscellaneousService);
     }
 
     init(){

@@ -1,7 +1,8 @@
+
 <div class="card" style="
     padding: 20px;
     max-width: 500px;
-	margin: 20px auto;">
+    margin: 20px auto;">
     <form name="elementForm" class="form-horizontal" [formGroup]="formGroup">
         <fieldset>
             <div class="form-group">
@@ -33,7 +34,11 @@
         {{translate('Or')}} 
         <br>
         <br>
-        <div class="g-signin2" (click)="googleLogin()" title="{{translate('Connect with Google')}}"></div>
+        <button class="btn btn-primary btn-block" (click)="googleLogin()">
+            <i class="fa fa-google"></i>
+            {{translate('Connect with Google')}}
+        </button>        
+        <!-- <div class="g-signin2" (click)="googleLogin()" title="{{translate('Connect with Google')}}"></div> -->
         <br>
         {{translate('Or')}} <a href="javascript:void(0)" (click)="newAccount()">{{translate('Create new account ')}}</a>
         <br>

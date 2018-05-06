@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { TranslateLocalService } from 'bdt105angulartranslateservice';
 import { ConnexionTokenService } from 'bdt105angularconnexionservice';
 
 @Component({
@@ -11,7 +10,7 @@ export class AppComponent {
 
     public sidebarOpened = false;
 
-    constructor(private translateService: TranslateLocalService, private connexionService: ConnexionTokenService){
+    constructor(private connexionService: ConnexionTokenService){
 
     }
     
@@ -21,10 +20,6 @@ export class AppComponent {
 		this.sidebarOpened = !this.sidebarOpened;
     }
     
-    public translate(text: string){
-        return this.translateService.translate(text);
-    }
-
     public getCurrentUser(){
         let usr = this.connexionService.getUser();
         return usr;

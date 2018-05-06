@@ -1,9 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { RouterModule }   from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-
+import { HttpModule, Http } from '@angular/http';
 // Components
 import { HomeComponent } from '../components/home/home.component';
 import { AboutComponent } from '../components/about/about.component';
@@ -30,31 +29,18 @@ import { AppRoutingModule } from './app-routing.module';
 // Services
 import { MenuService } from '../services/menu.service';
 import { ConnexionService, ConnexionTokenService } from 'bdt105angularconnexionservice';
-import { TranslateLocalService } from 'bdt105angulartranslateservice';
 import { DatabaseService } from 'bdt105angulardatabaseservice';
 import { ConfigurationService } from 'bdt105angularconfigurationservice';
 import { UserService } from '../services/user.service';
 import { FormValidationService } from '../services/fromValidation.service';
 import { AuthGuard } from '../services/auth.guard';
+import { MiscellaneousService } from '../services/miscellaneous.service';
 
-export function init (config: ConfigurationService, trans: TranslateLocalService) {
-    let callback1 = ()=>{
-        trans.language = config.get().common.language;
-        let callbackTrans1 = ()=>{
-
-        }
-        let callbackTrans0 = ()=>{
-            
-        }
-        trans.init(callbackTrans1, callbackTrans0);
-    }
-    let callback0 = ()=>{
-        console.log("Error loading configuration !");
-    }
-    config.init(callback1, callback0);
+export function init(configurationService: ConfigurationService) {
     return () => {
-        return config.load(); // Waits for 2 second that everything gets loaded
-    };
+        configurationService.load("translateAuthentification", "./assets/translateFR.json", false);
+        configurationService.load("configurationAuthentification", "./assets/configuration.json", false);
+    }
 }
 
 @NgModule({
@@ -81,14 +67,14 @@ export function init (config: ConfigurationService, trans: TranslateLocalService
         {
             'provide': APP_INITIALIZER,
             'useFactory': init,
-            'deps': [ ConfigurationService, TranslateLocalService ],
+            'deps': [ConfigurationService],
             'multi': true
         },
-        AuthGuard, MenuService, AccordionConfig, ConfigurationService, TranslateLocalService, 
-            ConnexionService, FormValidationService, UserService, DatabaseService, ConnexionTokenService],
-        bootstrap: [ AppComponent ]
-    })
+        AuthGuard, MenuService, AccordionConfig, ConfigurationService, MiscellaneousService, 
+        ConnexionService, FormValidationService, UserService, DatabaseService, ConnexionTokenService],
+    bootstrap: [AppComponent]
+})
 
 
-export class AppModule { 
+export class AppModule {
 }

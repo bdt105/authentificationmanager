@@ -1,34 +1,26 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
-import { TranslateLocalService } from 'bdt105angulartranslateservice';
-import { ConfigurationService } from 'bdt105angularconfigurationservice';
+import { MiscellaneousService } from '../services/miscellaneous.service';
+import { Toolbox } from 'bdt105toolbox/dist';
 
 export class GenericComponent implements OnInit{
 
-    // public canDisplay: boolean = false;
-    
-    // private canDisplaySuccess(data: any){
-    //     this.canDisplay = (data != null);
-    // }
+    public toolbox: Toolbox = new Toolbox();
+    private translateName = "translateAuthentification";
+    private configurationName: "configurationAuthentification";
 
-    // private canDisplayFailure(data: any){
-    //     this.canDisplay = false;
-    // }
-
-    constructor(public configurationService: ConfigurationService, public translateService: TranslateLocalService){
-
+    constructor(public miscellaneousService: MiscellaneousService){
     }
 
     ngOnInit(){
 
     }
 
-
-    loadTranslation(){
-
-    }
-
     translate(text: string){
-        return this.translateService.translate(text);
-    }    
+        return this.miscellaneousService.translate(text);
+    } 
+
+    configuration(){
+        return this.miscellaneousService.configuration();
+    }     
 }

@@ -14,5 +14,9 @@
     {
         "key": "Remember me",
         "value": "Se souvenir de moi"
-    }    
+    },
+    {
+        "key": "You are connected as ",
+        "value": "Vous êtes connecté en tant que "
+    }
 ]

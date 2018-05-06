@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Toolbox } from 'bdt105toolbox/dist';
 import { Http } from '@angular/http';
 
-import { TranslateLocalService } from 'bdt105angulartranslateservice';
-import { ConfigurationService } from 'bdt105angularconfigurationservice';
 import { ConnexionTokenService } from 'bdt105angularconnexionservice';
 
 @Injectable()
@@ -16,8 +14,7 @@ export class UserService {
     private url = './assets/translate' + this.language + '.json';
     private storageKey = "connexion";
 
-    constructor(private http: Http, private configurationService: ConfigurationService, private translateService: TranslateLocalService, 
-        private connexionService: ConnexionTokenService){
+    constructor(private http: Http, private connexionService: ConnexionTokenService){
     }
 
     private successSave(callbackSuccess: Function, callbackFailure: Function, data: any, user: any){
@@ -52,7 +49,7 @@ export class UserService {
             body.object = usr;
             body.idFieldName = "iduser";
             console.log(JSON.stringify(body));
-            this.http.put(this.configurationService.get().common.authentificationApiBaseUrl + "user", body).subscribe(
+            this.http.put(this.toolbox.readFromStorage("configuration").common.authentificationApiBaseUrl + "user", body).subscribe(
                 (data: any) => this.successSave(callbackSuccess, callbackFailure, data, user),
                 (error: any) => this.failureSave(callbackFailure, error)
             );
@@ -62,7 +59,7 @@ export class UserService {
     public delete(callbackSuccess: Function, callbackFailure: Function, user: any){
         let token = this.connexionService.getToken();        
         if (user){
-            this.http.delete(this.configurationService.get().common.authentificationApiBaseUrl + "get", user).subscribe(
+            this.http.delete(this.toolbox.readFromStorage("configuration").common.authentificationApiBaseUrl + "get", user).subscribe(
                 (data: any) => this.successSave(callbackSuccess, callbackFailure, data, user),
                 (error: any) => this.failureSave(callbackFailure, error)
             );
@@ -73,7 +70,7 @@ export class UserService {
         let token = this.connexionService.getToken(); 
         let body = {"token": token, "text": text};       
         if (text){
-            this.http.post(this.configurationService.get().common.authentificationApiBaseUrl + "encrypt", body).subscribe(
+            this.http.post(this.toolbox.readFromStorage("configuration").common.authentificationApiBaseUrl + "encrypt", body).subscribe(
                 (data: any) => callbackSuccess(data),
                 (error: any) => callbackFailure(error)
             );
@@ -96,7 +93,7 @@ export class UserService {
     public sendGmailEmail(callbackSuccess: Function, callbackFailure: Function, token: string, subject: string, message: string){
         if (token && message){
             let body = {"token": token, "message": message, "subject": subject};
-            this.http.post(this.configurationService.get().common.authentificationApiBaseUrl + "user/email", body).subscribe(
+            this.http.post(this.toolbox.readFromStorage("configuration").common.authentificationApiBaseUrl + "user/email", body).subscribe(
                 (data: any) => callbackSuccess(data),
                 (error: any) => callbackFailure(error)
             );

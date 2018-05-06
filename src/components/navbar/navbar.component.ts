@@ -3,7 +3,7 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
 import { MenuService } from '../../services/menu.service';
 import { GenericComponent } from '../generic.component';
 import { ConfigurationService } from 'bdt105angularconfigurationservice';
-import { TranslateLocalService } from 'bdt105angulartranslateservice';
+import { MiscellaneousService } from '../../services/miscellaneous.service';
 
 @Component({
     selector: 'navbar',
@@ -18,8 +18,8 @@ export class NavbarComponent extends GenericComponent {
     
     @Output() clickSidebarMenu: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-    constructor (private menuService: MenuService, public configurationService: ConfigurationService, public translateService: TranslateLocalService){
-        super(configurationService, translateService);
+    constructor (private menuService: MenuService, miscellaneousService: MiscellaneousService){
+        super(miscellaneousService);
     }
     
     toggleSidebar() {

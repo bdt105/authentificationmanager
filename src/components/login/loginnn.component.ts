@@ -1,14 +1,13 @@
 import { Component, Input, Output, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Http } from '@angular/http';
-import { Toolbox } from 'bdt105toolbox/dist';
 
 import { GenericComponent } from '../../components/generic.component';
-import { TranslateLocalService } from 'bdt105angulartranslateservice';
 import { ConfigurationService } from 'bdt105angularconfigurationservice';
 import { ConnexionTokenService } from 'bdt105angularconnexionservice';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { UserService } from '../../services/user.service';
+import { MiscellaneousService } from '../../services/miscellaneous.service';
 
 declare const gapi : any;
 
@@ -28,7 +27,6 @@ export class LoginnnComponent extends GenericComponent{
     connexionAttempt = false;
     
     public formGroup: any;
-    private toolbox: Toolbox = new Toolbox();
     public isConnected = false;
     public wrongLogin = false;
     public newUser: any;
@@ -40,18 +38,10 @@ export class LoginnnComponent extends GenericComponent{
     @Output() disconnected: EventEmitter<any> = new EventEmitter<any>();
 
     constructor(private router: Router, 
-        public configurationService: ConfigurationService, 
-        public translateService: TranslateLocalService, 
         public connexionService: ConnexionTokenService, 
         public userService: UserService,
-        private http: Http, private activatedRoute: ActivatedRoute) {
-        super(configurationService, translateService);
-        this.connexionService.authentificationApiBaseUrl = this.configurationService.get().common.authentificationApiBaseUrl;
-        this.init();
-
-    }
-
-    init(){
+        private http: Http, private activatedRoute: ActivatedRoute, miscellaneousService: MiscellaneousService){
+            super(miscellaneousService);
         this.formGroup = new FormGroup ({
             login: new FormControl('', [Validators.required]),
             password: new FormControl('', Validators.required),
@@ -59,12 +49,16 @@ export class LoginnnComponent extends GenericComponent{
         });
     }
 
-    ngOnInit(){
-        this.contactEmail = this.configurationService.get().common.contactEmail;
+    init(){
+        this.contactEmail = this.toolbox.readFromStorage("configuration").common.contactEmail;
         this.isConnected = this.connexionService.isConnected();
         this.activatedRoute.params.subscribe(params => {
             this.getParams();
         });       
+    }
+
+    ngOnInit(){
+        this.init;
     }
     
     getParams (){
@@ -138,28 +132,33 @@ export class LoginnnComponent extends GenericComponent{
     }
 
     getApplicationName(){
-        return this.configurationService.get().common.applicationName;
+        return this.toolbox.readFromStorage("configuration").common.applicationName;
     }
 
     googleLogin() {
-        let googleAuth = gapi.auth2.getAuthInstance();
-        googleAuth.then(() => {
-            googleAuth.signIn({scope: 'profile email', prompt: 'select_account'}).then(googleUser => {
-                let dat: any = {};
-                dat.googleSignIn = true;
-                dat.type = "connexion";
-                dat.decoded = googleUser.getBasicProfile();
-                dat.decoded.email = dat.decoded.U3; 
-                dat.decoded.firstname = dat.decoded.ofa;
-                dat.decoded.lastname = dat.decoded.wea;
-                dat.decoded.image = dat.decoded.Paa;
-                parent.postMessage(dat, "*");
-                this.connexionService.saveConnexion(dat, true);
-                this.connected.emit(dat);
-                this.refresh();
-                console.log(dat);
-            });
-        });
+        if (gapi){
+            gapi.load('auth2', function () {
+                gapi.auth2.init()
+                let googleAuth = gapi.auth2.getAuthInstance();
+                googleAuth.then(() => {
+                    googleAuth.signIn({scope: 'profile email', prompt: 'select_account'}).then(googleUser => {
+                        let dat: any = {};
+                        dat.googleSignIn = true;
+                        dat.type = "connexion";
+                        dat.decoded = googleUser.getBasicProfile();
+                        dat.decoded.email = dat.decoded.U3; 
+                        dat.decoded.firstname = dat.decoded.ofa;
+                        dat.decoded.lastname = dat.decoded.wea;
+                        dat.decoded.image = dat.decoded.Paa;
+                        parent.postMessage(dat, "*");
+                        this.connexionService.saveConnexion(dat, true);
+                        this.connected.emit(dat);
+                        this.refresh();
+                        console.log(dat);
+                    });
+                });
+            });        
+        }
     }    
 
     newAccount(){
