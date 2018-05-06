@@ -27,7 +27,6 @@ export class LoginnnComponent extends GenericComponent{
     connexionAttempt = false;
     
     public formGroup: any;
-    public isConnected = false;
     public wrongLogin = false;
     public newUser: any;
 
@@ -50,15 +49,14 @@ export class LoginnnComponent extends GenericComponent{
     }
 
     init(){
-        this.contactEmail = this.toolbox.readFromStorage("configuration").common.contactEmail;
-        this.isConnected = this.connexionService.isConnected();
+        this.contactEmail = this.miscellaneousService.configuration().common.contactEmail;
         this.activatedRoute.params.subscribe(params => {
             this.getParams();
         });       
     }
 
     ngOnInit(){
-        this.init;
+        this.init();
     }
     
     getParams (){
@@ -97,9 +95,8 @@ export class LoginnnComponent extends GenericComponent{
             parent.postMessage(dat, "*");
             console.log(dat);
             if (dat.decoded){
-                this.connexionService.saveConnexion(dat, true);
+                this.toolbox.writeToStorage("connexion", dat, false);                
                 this.connected.emit(data);
-                this.refresh();
             }else{
                 this.connexionFailure(null);
             }
@@ -113,10 +110,6 @@ export class LoginnnComponent extends GenericComponent{
         this.refresh();
     }
 
-    private refresh(){
-        this.isConnected = this.connexionService.isConnected();
-    }
-
     disconnect(){
         this.wrongLogin = false;
         
@@ -124,7 +117,6 @@ export class LoginnnComponent extends GenericComponent{
         this.connexionService.disconnect();
         this.disconnected.emit(null);
         parent.postMessage(null, "*");
-        this.refresh();
     }
 
     getCurrentUser(){

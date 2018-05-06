@@ -21,14 +21,14 @@
             </div>
             <div class="form-group">
                 <button type="submit" [disabled]="!formGroup.valid" class="btn btn-primary btn-block" (click)="connect()">{{translate('Connect')}}</button>
-                <button type="submit" *ngIf="isConnected" class="btn btn-danger btn-block" (click)="disconnect()">
+                <button type="submit" class="btn btn-danger btn-block" (click)="disconnect()">
                     {{translate('Disconnect')}}
                 </button>
-                <small *ngIf="isConnected">{{translate('You are connected as ') + getCurrentUser().email}}</small>
+                <!-- <small *ngIf="isConnected">{{translate('You are connected as ') + getCurrentUser().email}}</small> -->
             </div>
 
         </fieldset>
-        <div *ngIf="(!loading && connexionAttempt && !isConnected) || wrongLogin" class="alert alert-warning">
+        <div *ngIf="(!loading && connexionAttempt) || wrongLogin" class="alert alert-warning">
             {{translate('Incorrect username or password.')}}
         </div>
         {{translate('Or')}} 
