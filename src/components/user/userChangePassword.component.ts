@@ -55,7 +55,7 @@ export class UserChangePasswordComponent extends GenericComponent{
 
     changePassword(){
         let currentPassword = this.formGroupChangePassword.controls.currentPassword.value;
-        let newPassword = this.formGroupChangePassword.get("pass").get("newPassword").value;
+        let newPassword = this.formGroupChangePassword.get("pass").get("password").value;
         let email = this.formGroupChangePassword.controls.emailToChangePassword.value;
         this.userService.changePassword(
             (data : any)=> this.successChangePassword(data), 

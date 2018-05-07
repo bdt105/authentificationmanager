@@ -30,9 +30,10 @@
             </div>
 
         </fieldset>
-        <alert *ngIf="(!loading && connexionAttempt) || wrongLogin" type="warning" dismissible="true">
-            {{translate('Incorrect username or password.')}}
-        </alert>          
+        <div *ngIf="!loading && connexionAttempt">
+            <alert *ngIf="wrongLogin" type="warning" dismissible="true">{{translate('Incorrect username or password.')}}</alert>          
+            <alert *ngIf="!wrongLogin" type="success" dismissible="true">{{translate('You are connected.')}}</alert>          
+        </div>
         <br>
         <button class="btn btn-primary btn-block" (click)="googleLogin()">
             <i class="fa fa-google"></i>

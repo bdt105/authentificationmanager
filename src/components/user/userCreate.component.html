@@ -20,4 +20,6 @@
             <button type="submit" [disabled]="!formGroupUser.valid" class="btn btn-primary btn-block" (click)="createAndConnect()">{{translate('Create and connect')}}</button>
         </div>
     </form>
+    <alert *ngIf="message" type="success" dismissible="true">{{message}}</alert>      
+    <alert *ngIf="error" type="danger" dismissible="true">{{error}}</alert>          
 </div>

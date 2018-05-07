@@ -107,6 +107,7 @@ export class LoginnnComponent extends GenericComponent{
             dat.rememberMe = this.formGroupLogin.get('rememberMe').value;
             parent.postMessage(dat, "*");
             console.log(dat);
+            this.wrongLogin = false;
             if (dat.decoded){
                 this.toolbox.writeToStorage("connexion", dat, false);                
                 this.connected.emit(data);

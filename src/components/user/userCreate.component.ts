@@ -58,10 +58,12 @@ export class UserCreateComponent extends UserComponent{
     }
 
     private failureEncrypt(data: any){
-
+        this.error = this.translate("Impossible to create the user. The login or email may be already in use");
     }
 
     createAndConnect(){
+        this.error = null;
+        this.message = null;
         let password = this.formGroupUser.controls.pass.controls.password.value;
         this.userService.encrypt(
             (data : any)=> this.successEncryptForCreate(data), 

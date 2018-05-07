@@ -17,6 +17,7 @@ export class UserComponent extends GenericComponent {
     public isConnected = false;
 
     public message: string;
+    public error: string;
     public showAlert = false;
 
     protected __user: any;
