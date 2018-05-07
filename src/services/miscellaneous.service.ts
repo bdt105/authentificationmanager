@@ -5,6 +5,8 @@ import { interval } from 'rxjs/observable/interval';
 import { timer } from 'rxjs/observable/timer';
 import { takeUntil } from 'rxjs/operators';
 
+import { ConfigurationService } from "bdt105angularconfigurationservice";
+
 
 @Injectable()
 export class MiscellaneousService {
@@ -18,7 +20,7 @@ export class MiscellaneousService {
     private configurationKey = "configurationAuthentification";
     private translateKey = "translateAuthentification";
 
-    constructor(){
+    constructor(public configurationService: ConfigurationService){
     }
 
     private get(storageKey: string, waitingTime: number){
@@ -39,5 +41,13 @@ export class MiscellaneousService {
             }
         }
         return text;
-    } 
+    }
+
+    getConfigurationPromise(){
+        return this.configurationService.load(this.configurationKey, "./assets/configuration.json", false);
+    }
+
+    getTranslationPromise(){
+        return this.configurationService.load(this.configurationKey, "./assets/configuration.json", false);
+    }    
 }

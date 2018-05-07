@@ -3,6 +3,7 @@ import { Toolbox } from 'bdt105toolbox/dist';
 import { Http } from '@angular/http';
 
 import { ConnexionTokenService } from 'bdt105angularconnexionservice';
+import { MiscellaneousService } from './miscellaneous.service';
 
 @Injectable()
 export class UserService {
@@ -14,7 +15,7 @@ export class UserService {
     private url = './assets/translate' + this.language + '.json';
     private storageKey = "connexion";
 
-    constructor(private http: Http, private connexionService: ConnexionTokenService){
+    constructor(private http: Http, private connexionService: ConnexionTokenService, private miscellaneousService: MiscellaneousService){
     }
 
     private successSave(callbackSuccess: Function, callbackFailure: Function, data: any, user: any){
@@ -49,7 +50,7 @@ export class UserService {
             body.object = usr;
             body.idFieldName = "iduser";
             console.log(JSON.stringify(body));
-            this.http.put(this.toolbox.readFromStorage("configuration").common.authentificationApiBaseUrl + "user", body).subscribe(
+            this.http.put(this.miscellaneousService.configuration().common.authentificationApiBaseUrl + "user", body).subscribe(
                 (data: any) => this.successSave(callbackSuccess, callbackFailure, data, user),
                 (error: any) => this.failureSave(callbackFailure, error)
             );
@@ -59,7 +60,7 @@ export class UserService {
     public delete(callbackSuccess: Function, callbackFailure: Function, user: any){
         let token = this.connexionService.getToken();        
         if (user){
-            this.http.delete(this.toolbox.readFromStorage("configuration").common.authentificationApiBaseUrl + "get", user).subscribe(
+            this.http.delete(this.miscellaneousService.configuration().common.authentificationApiBaseUrl + "get", user).subscribe(
                 (data: any) => this.successSave(callbackSuccess, callbackFailure, data, user),
                 (error: any) => this.failureSave(callbackFailure, error)
             );
@@ -70,7 +71,7 @@ export class UserService {
         let token = this.connexionService.getToken(); 
         let body = {"token": token, "text": text};       
         if (text){
-            this.http.post(this.toolbox.readFromStorage("configuration").common.authentificationApiBaseUrl + "encrypt", body).subscribe(
+            this.http.post(this.miscellaneousService.configuration().common.authentificationApiBaseUrl + "encrypt", body).subscribe(
                 (data: any) => callbackSuccess(data),
                 (error: any) => callbackFailure(error)
             );
@@ -90,10 +91,20 @@ export class UserService {
         return user;
     }
 
-    public sendGmailEmail(callbackSuccess: Function, callbackFailure: Function, token: string, subject: string, message: string){
-        if (token && message){
-            let body = {"token": token, "message": message, "subject": subject};
-            this.http.post(this.toolbox.readFromStorage("configuration").common.authentificationApiBaseUrl + "user/email", body).subscribe(
+    public sendGmailEmail(callbackSuccess: Function, callbackFailure: Function, email: string, subject: string, message: string){
+        if (message && email){
+            let body = {"email": email, "message": message, "subject": subject};
+            this.http.post(this.miscellaneousService.configuration().common.authentificationApiBaseUrl + "user/resetpassword", body).subscribe(
+                (data: any) => callbackSuccess(data),
+                (error: any) => callbackFailure(error)
+            );
+        }
+    }
+
+    public changePassword(callbackSuccess: Function, callbackFailure: Function, email: string, currentPassword: string, newPassword: string){
+        if (email){
+            let body = {"email": email, "currentPassword": currentPassword, "newPassword": newPassword};
+            this.http.post(this.miscellaneousService.configuration().common.authentificationApiBaseUrl + "user/changepassword", body).subscribe(
                 (data: any) => callbackSuccess(data),
                 (error: any) => callbackFailure(error)
             );

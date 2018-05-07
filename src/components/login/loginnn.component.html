@@ -1,9 +1,11 @@
 
-<div class="card" style="
+<div *ngIf="loadComplete" class="card" style="
     padding: 20px;
     max-width: 500px;
     margin: 20px auto;">
-    <form name="elementForm" class="form-horizontal" [formGroup]="formGroup">
+
+    <!-- Login information -->
+    <form name="elementForm" class="form-horizontal" [formGroup]="formGroupLogin">
         <fieldset>
             <div class="form-group">
                 <label for="inputEmail" class="control-label">{{translate('Login')}}</label>
@@ -20,7 +22,7 @@
                 <i *ngIf="loading" class="fa fa-spinner fa-spin" style="font-size: 2em"></i>
             </div>
             <div class="form-group">
-                <button type="submit" [disabled]="!formGroup.valid" class="btn btn-primary btn-block" (click)="connect()">{{translate('Connect')}}</button>
+                <button type="submit" [disabled]="!formGroupLogin.valid" class="btn btn-primary btn-block" (click)="connect()">{{translate('Connect')}}</button>
                 <button type="submit" class="btn btn-danger btn-block" (click)="disconnect()">
                     {{translate('Disconnect')}}
                 </button>
@@ -28,23 +30,37 @@
             </div>
 
         </fieldset>
-        <div *ngIf="(!loading && connexionAttempt) || wrongLogin" class="alert alert-warning">
+        <alert *ngIf="(!loading && connexionAttempt) || wrongLogin" type="warning" dismissible="true">
             {{translate('Incorrect username or password.')}}
-        </div>
-        {{translate('Or')}} 
-        <br>
+        </alert>          
         <br>
         <button class="btn btn-primary btn-block" (click)="googleLogin()">
             <i class="fa fa-google"></i>
             {{translate('Connect with Google')}}
         </button>        
-        <!-- <div class="g-signin2" (click)="googleLogin()" title="{{translate('Connect with Google')}}"></div> -->
         <br>
-        {{translate('Or')}} <a href="javascript:void(0)" (click)="newAccount()">{{translate('Create new account ')}}</a>
-        <br>
-        <div *ngIf="showNewAccount" >
-            <userCreate [user]="newUser" [test]="test" (connected)="userCreated($event)"></userCreate>
-        </div>
-        <small>{{translate('Wanna know more ? Contact ')}}<a href="{{'mailto: ' + contactEmail}}">{{contactEmail}}</a></small>
     </form>
+
+    <!-- Change password -->
+    <a href="javascript:void(0)" (click)="showChangePassword = !showChangePassword">{{translate('Change my password')}}</a>
+    <div *ngIf="showChangePassword" >
+        <userChangePassword></userChangePassword>
+    </div>
+    
+    
+    <!-- Reset password -->
+    <a href="javascript:void(0)" (click)="showResetPassword = !showResetPassword">{{translate('Reset my password')}}</a>
+    <div *ngIf="showResetPassword" >
+        <userResetPassword></userResetPassword>
+    </div>
+
+    <!-- Create new account -->
+    <a href="javascript:void(0)" (click)="newAccount()">{{translate('Create new account ')}}</a>
+    <div *ngIf="showNewAccount" >
+        <userCreate [user]="newUser" [test]="test" (connected)="userCreated($event)"></userCreate>
+    </div>
+    
+    <br>
+    <br>
+    <small>{{translate('Wanna know more ? Contact ')}}<a href="{{'mailto: ' + contactEmail}}">{{contactEmail}}</a></small>
 </div>

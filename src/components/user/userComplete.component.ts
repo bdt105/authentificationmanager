@@ -6,7 +6,7 @@ import { Toolbox } from 'bdt105toolbox/dist';
 import { UserComponent } from '../../components/user/user.component';
 import { ConnexionTokenService } from 'bdt105angularconnexionservice';
 import { UserService } from '../../services/user.service';
-import { FormValidationService } from '../../services/fromValidation.service';
+import { FormValidationService } from '../../services/formValidation.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { MiscellaneousService } from '../../services/miscellaneous.service';
 

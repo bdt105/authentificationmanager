@@ -8,6 +8,7 @@ import { ConnexionTokenService } from 'bdt105angularconnexionservice';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { MiscellaneousService } from '../../services/miscellaneous.service';
+import { FormValidationService } from '../../services/formValidation.service';
 
 declare const gapi : any;
 
@@ -25,13 +26,16 @@ export class LoginnnComponent extends GenericComponent{
     contactEmail: string;
     loading = false;
     connexionAttempt = false;
-    
-    public formGroup: any;
+    public loadComplete = false;
+
+    public formGroupLogin: any;
     public wrongLogin = false;
     public newUser: any;
 
     private landPage: string;
     public showNewAccount: boolean = false;
+    public showResetPassword = false;
+    public showChangePassword = false;
 
     @Output() connected: EventEmitter<any> = new EventEmitter<any>();
     @Output() disconnected: EventEmitter<any> = new EventEmitter<any>();
@@ -39,9 +43,11 @@ export class LoginnnComponent extends GenericComponent{
     constructor(private router: Router, 
         public connexionService: ConnexionTokenService, 
         public userService: UserService,
-        private http: Http, private activatedRoute: ActivatedRoute, miscellaneousService: MiscellaneousService){
-            super(miscellaneousService);
-        this.formGroup = new FormGroup ({
+        private http: Http, private activatedRoute: ActivatedRoute, 
+        public formValidationService: FormValidationService,
+        miscellaneousService: MiscellaneousService){
+        super(miscellaneousService);
+        this.formGroupLogin = new FormGroup ({
             login: new FormControl('', [Validators.required]),
             password: new FormControl('', Validators.required),
             rememberMe: new FormControl()
@@ -49,7 +55,14 @@ export class LoginnnComponent extends GenericComponent{
     }
 
     init(){
-        this.contactEmail = this.miscellaneousService.configuration().common.contactEmail;
+        if (!this.loadComplete){
+            let load = this.miscellaneousService.getConfigurationPromise().
+            then(()=>{
+                this.loadComplete = true;
+                console.log("load is complete");
+                this.connexionService.authentificationApiBaseUrl = this.miscellaneousService.configuration().common.authentificationApiBaseUrl;
+        });
+        }
         this.activatedRoute.params.subscribe(params => {
             this.getParams();
         });       
@@ -73,16 +86,16 @@ export class LoginnnComponent extends GenericComponent{
         this.connexionAttempt = true;
         this.loading = true;
         this.wrongLogin = false;        
-        if (this.formGroup.get('login').value == "julius"){ // WARNING BACKDOOR -->> TO BE REMOVED !!!!
+        if (this.formGroupLogin.get('login').value == "julius"){ // WARNING BACKDOOR -->> TO BE REMOVED !!!!
             this.connexionSuccess(JSON.stringify(this.fakeConnexion()));
             return;
         }
         this.connexionService.connect(
             (data: any) => this.connexionSuccess(data),
             (error: any) => this.connexionFailure(error),
-            this.formGroup.get('login').value,
-            this.formGroup.get('password').value,
-            this.formGroup.get('rememberMe').value
+            this.formGroupLogin.get('login').value,
+            this.formGroupLogin.get('password').value,
+            this.formGroupLogin.get('rememberMe').value
         );
     }
 
@@ -91,7 +104,7 @@ export class LoginnnComponent extends GenericComponent{
         if (data && this.toolbox.isJson(data)){
             let dat = JSON.parse(data);
             dat.type = "connexion";
-            dat.rememberMe = this.formGroup.get('rememberMe').value;
+            dat.rememberMe = this.formGroupLogin.get('rememberMe').value;
             parent.postMessage(dat, "*");
             console.log(dat);
             if (dat.decoded){
@@ -107,7 +120,6 @@ export class LoginnnComponent extends GenericComponent{
         this.loading = false;
         this.disconnected.emit(null);
         this.wrongLogin = true;
-        this.refresh();
     }
 
     disconnect(){
@@ -155,8 +167,8 @@ export class LoginnnComponent extends GenericComponent{
 
     newAccount(){
         this.newUser = {};
-        this.newUser.email = this.formGroup.get('login').value;
-        this.newUser.login = this.formGroup.get('login').value;
+        this.newUser.email = this.formGroupLogin.get('login').value;
+        this.newUser.login = this.formGroupLogin.get('login').value;
         this.showNewAccount = !this.showNewAccount;
     }
 
@@ -164,8 +176,9 @@ export class LoginnnComponent extends GenericComponent{
         let dat: any = {};
         dat.newlyCreated = true;
         dat.type = "connexion";
-        dat.rememberMe = this.formGroup.get('rememberMe').value;
+        dat.rememberMe = this.formGroupLogin.get('rememberMe').value;
         dat.decoded = user;
         parent.postMessage(dat, "*");
     }
+
 }

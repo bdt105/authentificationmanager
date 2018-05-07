@@ -3,6 +3,7 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http } from '@angular/http';
+
 // Components
 import { HomeComponent } from '../components/home/home.component';
 import { AboutComponent } from '../components/about/about.component';
@@ -11,13 +12,15 @@ import { NavbarComponent } from '../components/navbar/navbar.component';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
 import { UserCompleteComponent } from '../components/user/userComplete.component';
 import { UserCreateComponent } from '../components/user/userCreate.component';
+import { UserResetPasswordComponent } from '../components/user/userResetPassword.component';
+import { UserChangePasswordComponent } from '../components/user/userChangePassword.component';
 
 // Sidebar module https://github.com/arkon/ng-sidebar
 import { SidebarModule } from 'ng-sidebar';
 
 // Bootstrap components https://valor-software.com/ngx-bootstrap
 import { AccordionModule, AccordionConfig } from 'ngx-bootstrap';
-import { TabsModule } from 'ngx-bootstrap';
+import { TabsModule, AlertModule } from 'ngx-bootstrap';
 import { TypeaheadModule } from 'ngx-bootstrap';
 import { PaginationModule } from 'ngx-bootstrap';
 import { ModalModule } from 'ngx-bootstrap';
@@ -32,7 +35,7 @@ import { ConnexionService, ConnexionTokenService } from 'bdt105angularconnexions
 import { DatabaseService } from 'bdt105angulardatabaseservice';
 import { ConfigurationService } from 'bdt105angularconfigurationservice';
 import { UserService } from '../services/user.service';
-import { FormValidationService } from '../services/fromValidation.service';
+import { FormValidationService } from '../services/formValidation.service';
 import { AuthGuard } from '../services/auth.guard';
 import { MiscellaneousService } from '../services/miscellaneous.service';
 
@@ -52,7 +55,9 @@ export function init(configurationService: ConfigurationService) {
         LoginnnComponent,
         UserCreateComponent,
         UserCompleteComponent,
-        AboutComponent
+        AboutComponent,
+        UserResetPasswordComponent,
+        UserChangePasswordComponent
     ],
     imports: [
         BrowserModule,
@@ -61,6 +66,7 @@ export function init(configurationService: ConfigurationService) {
         AccordionModule,
         HttpModule,
         ReactiveFormsModule,
+        AlertModule.forRoot(),
         SidebarModule.forRoot()
     ],
     providers: [
@@ -70,8 +76,8 @@ export function init(configurationService: ConfigurationService) {
             'deps': [ConfigurationService],
             'multi': true
         },
-        AuthGuard, MenuService, AccordionConfig, ConfigurationService, MiscellaneousService, 
-        ConnexionService, FormValidationService, UserService, DatabaseService, ConnexionTokenService],
+        AuthGuard, MenuService, AccordionConfig, ConfigurationService, MiscellaneousService, FormValidationService,
+        ConnexionService, UserService, DatabaseService, ConnexionTokenService],
     bootstrap: [AppComponent]
 })
 

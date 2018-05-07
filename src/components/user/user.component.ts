@@ -6,7 +6,7 @@ import { Toolbox } from 'bdt105toolbox/dist';
 import { GenericComponent } from '../../components/generic.component';
 import { ConnexionTokenService } from 'bdt105angularconnexionservice';
 import { UserService } from '../../services/user.service';
-import { FormValidationService } from '../../services/fromValidation.service';
+import { FormValidationService } from '../../services/formValidation.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { MiscellaneousService } from '../../services/miscellaneous.service';
 
@@ -54,7 +54,7 @@ export class UserComponent extends GenericComponent {
             } else {
                 if (data.insertedId && data.insertedId > 0) {
                     this.showAlert = true;
-                    this.message = this.translate("Successfully added!");
+                    this.message = this.translate("Successfully created!");
                 } else {
                     this.showAlert = true;
                     this.message = this.translate("Error while saving!" + JSON.stringify(data));
