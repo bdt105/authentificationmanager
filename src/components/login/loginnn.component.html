@@ -14,11 +14,11 @@
             <div class="form-group">
                 <label for="inputPassword" class="control-label">{{translate('Password')}}</label>
                 <input type="password" formControlName="password" class="form-control" id="inputPassword" placeholder="{{translate('Password')}}">
-                <div class="checkbox" style="margin-top: 20px">
+                <!-- <div class="checkbox" style="margin-top: 20px">
                     <label>
                         <input formControlName="rememberMe" type="checkbox"> {{translate('Remember me')}}
                     </label>
-                </div>
+                </div> -->
                 <i *ngIf="loading" class="fa fa-spinner fa-spin" style="font-size: 2em"></i>
             </div>
             <div class="form-group">
@@ -30,15 +30,15 @@
             </div>
 
         </fieldset>
-        <div *ngIf="!loading && connexionAttempt">
-            <alert *ngIf="wrongLogin" type="warning" dismissible="true">{{translate('Incorrect username or password.')}}</alert>          
-            <alert *ngIf="!wrongLogin" type="success" dismissible="true">{{translate('You are connected.')}}</alert>          
-        </div>
+        <alert *ngIf="error" type="warning" dismissible="true">{{error}}</alert>          
+        <alert *ngIf="message" type="success" dismissible="true">{{message}}</alert>          
         <br>
         <button class="btn btn-primary btn-block" (click)="googleLogin()">
             <i class="fa fa-google"></i>
             {{translate('Connect with Google')}}
-        </button>        
+        </button>     
+        <small>{{translate('Absolutly no data will be kept and/or sold and/or reused')}}</small>
+        <br>
         <br>
     </form>
 
@@ -58,7 +58,7 @@
     <!-- Create new account -->
     <a href="javascript:void(0)" (click)="newAccount()">{{translate('Create new account ')}}</a>
     <div *ngIf="showNewAccount" >
-        <userCreate [user]="newUser" [test]="test" (connected)="userCreated($event)"></userCreate>
+        <userCreate (created)="userCreated($event)"></userCreate>
     </div>
     
     <br>

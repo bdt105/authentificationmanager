@@ -9,6 +9,7 @@ import { UserService } from '../../services/user.service';
 import { FormValidationService } from '../../services/formValidation.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { MiscellaneousService } from '../../services/miscellaneous.service';
+import { GenericComponent } from '../generic.component';
 
 @Component({
     selector: 'userCreate',
@@ -16,17 +17,24 @@ import { MiscellaneousService } from '../../services/miscellaneous.service';
     providers: []
 })
 
-export class UserCreateComponent extends UserComponent{
+export class UserCreateComponent extends GenericComponent{
+
+    public error: any;
+    public message: any;
+    private user: any;
+    public formGroupUser: FormGroup;
 
     constructor (public formBuilder: FormBuilder, public formValidationService: FormValidationService, public connexionService: ConnexionTokenService,
         public userService: UserService, miscellaneousService: MiscellaneousService) {
-        super(formBuilder, formValidationService, connexionService, userService, miscellaneousService);
+        super(miscellaneousService);
         this.init();
     }
 
+    @Output() created: EventEmitter<any> = new EventEmitter<any>();
+    
     init(){
         this.formGroupUser = this.formBuilder.group ({
-            login: ["", [Validators.required]],
+            // login: ["", [Validators.required]],
             email: ["", [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
             pass: this.formBuilder.group({
                 password: ['', Validators.required],
@@ -39,6 +47,42 @@ export class UserCreateComponent extends UserComponent{
         this.init();
     }
 
+    private successSave(data: any) {
+        if (data) {
+            if (data.affectedRows && data.affectedRows > 0) {
+                this.message = this.translate("Successfully saved!");
+                if (data.insertId){
+                    this.user.iduser = data.insertId;
+                }
+                this.created.emit(this.user);                
+            } else {
+                if (data.insertedId && data.insertedId > 0) {
+                    this.message = this.translate("Successfully created! You may connect.");
+                } else {
+                    this.message = this.translate("Error while saving!" + JSON.stringify(data));
+                }
+            }
+        } else {
+            this.message = this.translate("Error while saving!");
+        }
+    }
+
+    private failureSave(error: any) {
+        let err = JSON.parse(error._body);
+        if (err.message && err.message.code == "ER_DUP_ENTRY"){
+            this.error = this.translate("Impossible to create the user. The login or email may be already in use");
+        }else{
+            this.error = this.translate("Impossible to create the user!");
+        }
+        console.log(err);
+    }
+
+    saveUser(formGroup: FormGroup) {
+        this.userService.set(formGroup, this.user);
+        this.userService.save((data: any) => this.successSave(data), (error: any) => this.failureSave(error), this.user);
+        console.log(this.user);
+    }
+    
     save(){
         this.saveUser(this.formGroupUser);
         this.userService.save((data: any) => this.successSave(data), (error: any) => this.failureSave(error), this.user);
@@ -49,22 +93,28 @@ export class UserCreateComponent extends UserComponent{
         let dat = JSON.parse(data._body);
         let enc = dat.encrypted;
         this.user = this.userService.getNewUser();
-        this.user.login = this.formGroupUser.controls.login.value;
+        this.user.login = this.formGroupUser.controls.email.value;
         this.user.email = this.formGroupUser.controls.email.value;
         this.user.password = enc;
-        this.userService.save(
+        this.userService.signup(
             (data: any) => this.successSave(data),
             (error: any) => this.failureSave(error), this.user);
     }
 
     private failureEncrypt(data: any){
-        this.error = this.translate("Impossible to create the user. The login or email may be already in use");
+        let err = JSON.parse(data._body);
+        if (err.message && err.message.code == "ER_DUP_ENTRY"){
+            this.error = this.translate("Impossible to create the user. The login or email may be already in use");
+        }else{
+            this.error = this.translate("Impossible to create the user!");
+        }
+        console.log(err);
     }
 
     createAndConnect(){
         this.error = null;
         this.message = null;
-        let password = this.formGroupUser.controls.pass.controls.password.value;
+        let password = this.formGroupUser.get("pass").get("password").value;
         this.userService.encrypt(
             (data : any)=> this.successEncryptForCreate(data), 
             (error: any) => this.failureEncrypt(error), password);

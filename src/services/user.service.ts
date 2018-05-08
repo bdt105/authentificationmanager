@@ -25,9 +25,6 @@ export class UserService {
                 callbackFailure(dat);
             }
         }else{
-            let usr = this.toolbox.readFromStorage("connexion");
-            usr.decoded = user;
-            this.connexionService.saveConnexion(usr);
             if (callbackSuccess){
                 callbackSuccess(dat);
             }
@@ -44,13 +41,30 @@ export class UserService {
         let token = this.connexionService.getToken();
         let usr = this.toolbox.cloneObject(user);
         delete(usr.iat);
-        if (token && user){
+        if (user){
             let body: any = {};
             body.token = token;
             body.object = usr;
             body.idFieldName = "iduser";
             console.log(JSON.stringify(body));
             this.http.put(this.miscellaneousService.configuration().common.authentificationApiBaseUrl + "user", body).subscribe(
+                (data: any) => this.successSave(callbackSuccess, callbackFailure, data, user),
+                (error: any) => this.failureSave(callbackFailure, error)
+            );
+        }
+    }
+
+    public signup(callbackSuccess: Function, callbackFailure: Function, user: any){
+        let token = this.connexionService.getToken();
+        let usr = this.toolbox.cloneObject(user);
+        delete(usr.iat);
+        if (user){
+            let body: any = {};
+            body.token = token;
+            body.object = usr;
+            body.idFieldName = "iduser";
+            console.log(JSON.stringify(body));
+            this.http.put(this.miscellaneousService.configuration().common.authentificationApiBaseUrl + "user/signup", body).subscribe(
                 (data: any) => this.successSave(callbackSuccess, callbackFailure, data, user),
                 (error: any) => this.failureSave(callbackFailure, error)
             );
@@ -117,6 +131,11 @@ export class UserService {
         user.type = 0;
         user.creationdate = date;
         user.updatedate = date;
+
+        let application = this.toolbox.readFromStorage("application");
+
+        user.application = application.application;
+
         return user;
     }
 }

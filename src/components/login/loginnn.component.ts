@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Http } from '@angular/http';
 
@@ -29,10 +29,11 @@ export class LoginnnComponent extends GenericComponent{
     public loadComplete = false;
 
     public formGroupLogin: any;
-    public wrongLogin = false;
+    public message: string;
+    public error: string;
     public newUser: any;
 
-    private landPage: string;
+    private application: string;
     public showNewAccount: boolean = false;
     public showResetPassword = false;
     public showChangePassword = false;
@@ -44,7 +45,7 @@ export class LoginnnComponent extends GenericComponent{
         public connexionService: ConnexionTokenService, 
         public userService: UserService,
         private http: Http, private activatedRoute: ActivatedRoute, 
-        public formValidationService: FormValidationService,
+        public formValidationService: FormValidationService, private ngZone: NgZone,
         miscellaneousService: MiscellaneousService){
         super(miscellaneousService);
         this.formGroupLogin = new FormGroup ({
@@ -73,11 +74,16 @@ export class LoginnnComponent extends GenericComponent{
     }
     
     getParams (){
-        if (this.activatedRoute.snapshot.params["landPage"]){
-            this.landPage = this.activatedRoute.snapshot.params["landPage"];
+        if (this.activatedRoute.snapshot.params["application"]){
+            this.application = this.activatedRoute.snapshot.params["application"];
+            this.toolbox.writeToStorage("application", {"application": this.application}, false);
         }
     }    
     
+    private setMessages(error: string, message: string){
+        this.error = error;
+        this.message = message;
+    }
     private fakeConnexion(){
         return {"decoded": {"login": "fake", "password": "fake", "email": "email@fake.com"}};
     }
@@ -85,7 +91,7 @@ export class LoginnnComponent extends GenericComponent{
     connect (){
         this.connexionAttempt = true;
         this.loading = true;
-        this.wrongLogin = false;        
+        this.setMessages(null, null); 
         if (this.formGroupLogin.get('login').value == "julius"){ // WARNING BACKDOOR -->> TO BE REMOVED !!!!
             this.connexionSuccess(JSON.stringify(this.fakeConnexion()));
             return;
@@ -99,33 +105,39 @@ export class LoginnnComponent extends GenericComponent{
         );
     }
 
-    private connexionSuccess(data: any){
-        this.loading = false;
-        if (data && this.toolbox.isJson(data)){
-            let dat = JSON.parse(data);
-            dat.type = "connexion";
-            dat.rememberMe = this.formGroupLogin.get('rememberMe').value;
-            parent.postMessage(dat, "*");
-            console.log(dat);
-            this.wrongLogin = false;
-            if (dat.decoded){
-                this.toolbox.writeToStorage("connexion", dat, false);                
+    private connexionOk(data: any){
+        if (data){
+            data.type = "connexion";
+            data.rememberMe = this.formGroupLogin.get('rememberMe').value;
+            parent.postMessage(data, "*");
+            if (data.decoded){
+                this.setMessages(null, this.translate("Welcome ") + data.decoded.email + "!"); 
                 this.connected.emit(data);
             }else{
                 this.connexionFailure(null);
             }
+            console.log(data);
+            this.ngZone.run(() => { // refresh
+            });
         }
     }
 
-    private connexionFailure = function(data: any){
+    private connexionSuccess(data: any){
+        this.loading = false;
+        if (data && this.toolbox.isJson(data)){
+            let dat = JSON.parse(data);
+            this.connexionOk(dat);
+        }
+    }
+
+    private connexionFailure (data: any) {
         this.loading = false;
         this.disconnected.emit(null);
-        this.wrongLogin = true;
+        this.setMessages(this.translate("Impossible to connect. Please check login and password."), null); 
     }
 
     disconnect(){
-        this.wrongLogin = false;
-        
+        this.setMessages(null, null); 
         this.connexionAttempt = false;
         this.connexionService.disconnect();
         this.disconnected.emit(null);
@@ -142,7 +154,7 @@ export class LoginnnComponent extends GenericComponent{
 
     googleLogin() {
         if (gapi){
-            gapi.load('auth2', function () {
+            gapi.load('auth2', () => {
                 gapi.auth2.init()
                 let googleAuth = gapi.auth2.getAuthInstance();
                 googleAuth.then(() => {
@@ -155,31 +167,16 @@ export class LoginnnComponent extends GenericComponent{
                         dat.decoded.firstname = dat.decoded.ofa;
                         dat.decoded.lastname = dat.decoded.wea;
                         dat.decoded.image = dat.decoded.Paa;
-                        parent.postMessage(dat, "*");
-                        this.connexionService.saveConnexion(dat, true);
-                        this.connected.emit(dat);
-                        this.refresh();
-                        console.log(dat);
+                        this.connexionOk(dat);
                     });
                 });
             });        
         }
     }    
 
-    newAccount(){
-        this.newUser = {};
-        this.newUser.email = this.formGroupLogin.get('login').value;
-        this.newUser.login = this.formGroupLogin.get('login').value;
-        this.showNewAccount = !this.showNewAccount;
-    }
-
     userCreated(user: any){
-        let dat: any = {};
-        dat.newlyCreated = true;
-        dat.type = "connexion";
-        dat.rememberMe = this.formGroupLogin.get('rememberMe').value;
-        dat.decoded = user;
-        parent.postMessage(dat, "*");
+        this.showNewAccount = false;
+        this.setMessages(null, this.translate("Your account has been created. You may now connect.")); 
     }
 
 }
