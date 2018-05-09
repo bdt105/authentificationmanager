@@ -56,7 +56,7 @@
     </div>
 
     <!-- Create new account -->
-    <a href="javascript:void(0)" (click)="newAccount()">{{translate('Create new account ')}}</a>
+    <a href="javascript:void(0)" (click)="showNewAccount =!showNewAccount">{{translate('Create new account ')}}</a>
     <div *ngIf="showNewAccount" >
         <userCreate (created)="userCreated($event)"></userCreate>
     </div>

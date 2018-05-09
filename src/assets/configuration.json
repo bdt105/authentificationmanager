@@ -5,8 +5,8 @@
         "homeUrl": "/home",
         "logToFile": true,
         "logToConsole": true,
-        "authentificationApiBaseUrl1": "http://vps453669.ovh.net/auth/",
-        "authentificationApiBaseUrl": "http://localhost:3000/",
+        "authentificationApiBaseUrl": "http://vps453669.ovh.net/auth/",
+        "authentificationApiBaseUrl1": "http://localhost:3000/",
         "language": "FR",
         "contactEmail": "bdt105@gmail.com"
     }

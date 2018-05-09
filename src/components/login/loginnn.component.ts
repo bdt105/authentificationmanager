@@ -33,6 +33,7 @@ export class LoginnnComponent extends GenericComponent{
     public error: string;
     public newUser: any;
 
+    
     private application: string;
     public showNewAccount: boolean = false;
     public showResetPassword = false;
@@ -41,11 +42,11 @@ export class LoginnnComponent extends GenericComponent{
     @Output() connected: EventEmitter<any> = new EventEmitter<any>();
     @Output() disconnected: EventEmitter<any> = new EventEmitter<any>();
 
-    constructor(private router: Router, 
+    constructor(public http: Http, private router: Router, 
         public connexionService: ConnexionTokenService, 
         public userService: UserService,
-        private http: Http, private activatedRoute: ActivatedRoute, 
-        public formValidationService: FormValidationService, private ngZone: NgZone,
+        public activatedRoute: ActivatedRoute, 
+        public formValidationService: FormValidationService, public ngZone: NgZone,
         miscellaneousService: MiscellaneousService){
         super(miscellaneousService);
         this.formGroupLogin = new FormGroup ({
@@ -92,11 +93,27 @@ export class LoginnnComponent extends GenericComponent{
         this.connexionAttempt = true;
         this.loading = true;
         this.setMessages(null, null); 
-        if (this.formGroupLogin.get('login').value == "julius"){ // WARNING BACKDOOR -->> TO BE REMOVED !!!!
-            this.connexionSuccess(JSON.stringify(this.fakeConnexion()));
-            return;
-        }
-        this.connexionService.connect(
+        // if (this.formGroupLogin.get('login').value == "julius"){ // WARNING BACKDOOR -->> TO BE REMOVED !!!!
+        //     this.connexionSuccess(JSON.stringify(this.fakeConnexion()));
+        //     return;
+        // }
+        let body: any = {};
+        body.login = this.formGroupLogin.get('login').value;
+        body.password = this.formGroupLogin.get('password').value;
+        this.http.post(this.connexionService.authentificationApiBaseUrl + "get", body).subscribe(
+            (data: any) => this.connexionSuccess(data),
+            (error: any) => this.connexionFailure(error)
+        );
+        
+        // this.connexionService.connect(
+        //     (data: any) => this.connexionSuccess(data),
+        //     (error: any) => this.connexionFailure(error),
+        //     this.formGroupLogin.get('login').value,
+        //     this.formGroupLogin.get('password').value,
+        //     this.formGroupLogin.get('rememberMe').value
+        // );
+
+        this.connexionService.connect2(this.http,
             (data: any) => this.connexionSuccess(data),
             (error: any) => this.connexionFailure(error),
             this.formGroupLogin.get('login').value,
