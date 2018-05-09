@@ -5,6 +5,8 @@ import { Http } from '@angular/http';
 import { GenericComponent } from '../../components/generic.component';
 import { ConfigurationService } from 'bdt105angularconfigurationservice';
 import { ConnexionTokenService } from 'bdt105angularconnexionservice';
+import { Google } from 'bdt105google/dist';
+
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { MiscellaneousService } from '../../services/miscellaneous.service';
@@ -38,6 +40,8 @@ export class LoginnnComponent extends GenericComponent{
     public showNewAccount: boolean = false;
     public showResetPassword = false;
     public showChangePassword = false;
+
+    private google: Google = new Google(gapi);
 
     @Output() connected: EventEmitter<any> = new EventEmitter<any>();
     @Output() disconnected: EventEmitter<any> = new EventEmitter<any>();
@@ -170,24 +174,40 @@ export class LoginnnComponent extends GenericComponent{
     }
 
     googleLogin() {
+        let callback = (googleUser: any) => {
+            let dat: any = {};
+            dat.googleSignIn = true;
+            dat.type = "connexion";
+            dat.decoded = googleUser.getBasicProfile();
+            dat.decoded.email = dat.decoded.U3; 
+            dat.decoded.firstname = dat.decoded.ofa;
+            dat.decoded.lastname = dat.decoded.wea;
+            dat.decoded.image = dat.decoded.Paa;
+            this.connexionOk(dat);
+            let callback = (files: any) => {
+                let f = files;
+            }
+            this.google.listFiles((data: any) => callback(data));
+
+        }
         if (gapi){
-            gapi.load('auth2', () => {
-                gapi.auth2.init()
-                let googleAuth = gapi.auth2.getAuthInstance();
-                googleAuth.then(() => {
-                    googleAuth.signIn({scope: 'profile email', prompt: 'select_account'}).then(googleUser => {
-                        let dat: any = {};
-                        dat.googleSignIn = true;
-                        dat.type = "connexion";
-                        dat.decoded = googleUser.getBasicProfile();
-                        dat.decoded.email = dat.decoded.U3; 
-                        dat.decoded.firstname = dat.decoded.ofa;
-                        dat.decoded.lastname = dat.decoded.wea;
-                        dat.decoded.image = dat.decoded.Paa;
-                        this.connexionOk(dat);
-                    });
-                });
-            });        
+            this.google.signIn((data: any) => callback(data));
+            // gapi.load('auth2', () => {
+            //     gapi.auth2.init()
+            //     let googleAuth = gapi.auth2.getAuthInstance();
+            //     googleAuth.then(() => {
+            //         googleAuth.signIn({scope: 'profile email', prompt: 'select_account'}).then(googleUser => {
+            //             let dat: any = {};
+            //             dat.googleSignIn = true;
+            //             dat.type = "connexion";
+            //             dat.decoded.email = dat.decoded.U3; 
+            //             dat.decoded.firstname = dat.decoded.ofa;
+            //             dat.decoded.lastname = dat.decoded.wea;
+            //             dat.decoded.image = dat.decoded.Paa;
+            //             this.connexionOk(dat);
+            //         });
+            //     });
+            // });        
         }
     }    
 
