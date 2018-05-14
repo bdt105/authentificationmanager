@@ -2,7 +2,8 @@
 <div *ngIf="loadComplete" class="card" style="
     padding: 20px;
     max-width: 500px;
-    margin: 20px auto;">
+    margin: 20px auto;
+    border: 0">
 
     <!-- Login information -->
     <form name="elementForm" class="form-horizontal" [formGroup]="formGroupLogin">
@@ -60,8 +61,8 @@
     <div *ngIf="showNewAccount" >
         <userCreate (created)="userCreated($event)"></userCreate>
     </div>
-    
+<!--     
     <br>
     <br>
-    <small>{{translate('Wanna know more ? Contact ')}}<a href="{{'mailto: ' + contactEmail}}">{{contactEmail}}</a></small>
+    <small>{{translate('Wanna know more ? Contact ')}}<a href="{{'mailto: ' + contactEmail}}">{{contactEmail}}</a></small> -->
 </div>
