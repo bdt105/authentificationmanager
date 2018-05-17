@@ -101,13 +101,13 @@ export class LoginnnComponent extends GenericComponent{
         //     this.connexionSuccess(JSON.stringify(this.fakeConnexion()));
         //     return;
         // }
-        let body: any = {};
-        body.login = this.formGroupLogin.get('login').value;
-        body.password = this.formGroupLogin.get('password').value;
-        this.http.post(this.connexionService.authentificationApiBaseUrl + "get", body).subscribe(
-            (data: any) => this.connexionSuccess(data),
-            (error: any) => this.connexionFailure(error)
-        );
+        // let body: any = {};
+        // body.login = this.formGroupLogin.get('login').value;
+        // body.password = this.formGroupLogin.get('password').value;
+        // this.http.post(this.connexionService.authentificationApiBaseUrl + "get", body).subscribe(
+        //     (data: any) => this.connexionSuccess(data),
+        //     (error: any) => this.connexionFailure(error)
+        // );
         
         // this.connexionService.connect(
         //     (data: any) => this.connexionSuccess(data),
