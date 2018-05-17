@@ -1,3 +1,4 @@
+
 <div *ngIf="loadComplete" class="card" style="
     padding: 20px;
     max-width: 500px;
@@ -8,11 +9,11 @@
     <form name="elementForm" class="form-horizontal" [formGroup]="formGroupLogin">
         <fieldset>
             <div class="form-group">
-                <!-- <label for="inputEmail" class="control-label">{{translate('Login')}}</label> -->
+                <label for="inputEmail" class="control-label">{{translate('Login')}}</label>
                 <input formControlName="login" type="text" class="form-control" id="inputEmail" placeholder="{{translate('Email or login')}}">
             </div>
             <div class="form-group">
-                <!-- <label for="inputPassword" class="control-label">{{translate('Password')}}</label> -->
+                <label for="inputPassword" class="control-label">{{translate('Password')}}</label>
                 <input type="password" formControlName="password" class="form-control" id="inputPassword" placeholder="{{translate('Password')}}">
                 <div class="checkbox" style="margin-top: 20px">
                     <label>
@@ -22,45 +23,45 @@
                 <i *ngIf="loading" class="fa fa-spinner fa-spin" style="font-size: 2em"></i>
             </div>
             <div class="form-group">
-                <button type="submit" [disabled]="!formGroupLogin.valid" class="btn btn-primary" (click)="connect()">{{translate('Connect')}}</button>
-                <button class="btn btn-primary" (click)="googleLogin()">
-                    <i class="fa fa-google"></i>
-                    {{translate('Google connect')}}
-                </button>
-                <!-- <small>{{translate('Absolutly no data will be kept and/or sold and/or reused')}}</small> -->
-                <br>
-                <span style="cursor: pointer" (click)="disconnect()">
+                <button type="submit" [disabled]="!formGroupLogin.valid" class="btn btn-primary btn-block" (click)="connect()">{{translate('Connect')}}</button>
+                <button type="submit" class="btn btn-danger btn-block" (click)="disconnect()">
                     {{translate('Disconnect')}}
-                </span>
+                </button>
                 <!-- <small *ngIf="isConnected">{{translate('You are connected as ') + getCurrentUser().email}}</small> -->
             </div>
 
         </fieldset>
-        <alert *ngIf="error" type="warning" dismissible="true">{{ error }}</alert>
-        <alert *ngIf="message" type="success" dismissible="true">{{ message }}</alert>
+        <alert *ngIf="error" type="warning" dismissible="true">{{error}}</alert>          
+        <alert *ngIf="message" type="success" dismissible="true">{{message}}</alert>          
+        <br>
+        <button class="btn btn-primary btn-block" (click)="googleLogin()">
+            <i class="fa fa-google"></i>
+            {{translate('Connect with Google')}}
+        </button>     
+        <small>{{translate('Absolutly no data will be kept and/or sold and/or reused')}}</small>
         <br>
         <br>
     </form>
 
     <!-- Change password -->
     <a href="javascript:void(0)" (click)="showChangePassword = !showChangePassword">{{translate('Change my password')}}</a>
-    <div *ngIf="showChangePassword">
+    <div *ngIf="showChangePassword" >
         <userChangePassword></userChangePassword>
     </div>
-
-
+    
+    
     <!-- Reset password -->
     <a href="javascript:void(0)" (click)="showResetPassword = !showResetPassword">{{translate('Reset my password')}}</a>
-    <div *ngIf="showResetPassword">
+    <div *ngIf="showResetPassword" >
         <userResetPassword></userResetPassword>
     </div>
 
     <!-- Create new account -->
     <a href="javascript:void(0)" (click)="showNewAccount =!showNewAccount">{{translate('Create new account ')}}</a>
-    <div *ngIf="showNewAccount">
+    <div *ngIf="showNewAccount" >
         <userCreate (created)="userCreated($event)"></userCreate>
     </div>
-    <!--     
+<!--     
     <br>
     <br>
     <small>{{translate('Wanna know more ? Contact ')}}<a href="{{'mailto: ' + contactEmail}}">{{contactEmail}}</a></small> -->

@@ -1,4 +1,4 @@
-<div>
+<div style="margin-top: 10px">
     <form class="form-horizontal"  [formGroup]="formGroupUser">
         <fieldset>
             <!-- <div class="form-group">
@@ -6,18 +6,18 @@
                 <input class="form-control" type="text" formControlName="login" placeholder="{{translate('Login')}}">
             </div> -->
             <div class="form-group">
-                <label class="control-label">{{translate('Email')}}</label>
+                <!-- <label class="control-label">{{translate('Email')}}</label> -->
                 <input class="form-control" type="text" formControlName="email" placeholder="{{translate('Email')}}">
             </div>
             <div class="form-group" formGroupName="pass">
-                <label class="control-label">{{translate('Password')}}</label>
+                <!-- <label class="control-label">{{translate('Password')}}</label> -->
                 <input class="form-control" type="password" formControlName="password" placeholder="{{translate('Password')}}">
-                <label class="control-label">{{translate('Confirm')}}</label>
-                <input class="form-control" type="password" formControlName="confirmPassword" placeholder="{{translate('Confirm password')}}">
+                <!-- <label class="control-label">{{translate('Confirm')}}</label> -->
+                <input class="form-control" type="password" formControlName="confirmPassword" placeholder="{{translate('Confirm password')}}" style="margin-top: 10px">
             </div>
         </fieldset>
         <div class="form-group">
-            <button type="submit" [disabled]="!formGroupUser.valid" class="btn btn-primary btn-block" (click)="createAndConnect()">{{translate('Create and connect')}}</button>
+            <button type="submit" [disabled]="!formGroupUser.valid" class="btn btn-primary" (click)="createAndConnect()">{{translate('Create and connect')}}</button>
         </div>
     </form>
     <alert *ngIf="message" type="success" dismissible="true">{{message}}</alert>      
