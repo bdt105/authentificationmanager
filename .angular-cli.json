@@ -22,7 +22,8 @@
         "styles.css",
         "../node_modules/font-awesome/css/font-awesome.css",
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
-        "./assets/css/custom.css"
+        "./assets/css/custom.css",
+        "./assets/css/custom.scss"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
