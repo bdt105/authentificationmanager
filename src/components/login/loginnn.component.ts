@@ -41,7 +41,7 @@ export class LoginnnComponent extends GenericComponent{
     public showResetPassword = false;
     public showChangePassword = false;
 
-    private google: Google = new Google(gapi);
+    private google: Google;// = new Google(gapi);
 
     @Output() connected: EventEmitter<any> = new EventEmitter<any>();
     @Output() disconnected: EventEmitter<any> = new EventEmitter<any>();
@@ -61,6 +61,7 @@ export class LoginnnComponent extends GenericComponent{
     }
 
     init(){
+        this.google = new Google(gapi);
         if (!this.loadComplete){
             let load = this.miscellaneousService.getConfigurationPromise().
             then(()=>{
@@ -184,10 +185,10 @@ export class LoginnnComponent extends GenericComponent{
             dat.decoded.lastname = dat.decoded.wea;
             dat.decoded.image = dat.decoded.Paa;
             this.connexionOk(dat);
-            let callback = (files: any) => {
-                let f = files;
-            }
-            this.google.listFiles((data: any) => callback(data));
+            // let callback = (files: any) => {
+            //     let f = files;
+            // }
+            // //this.google.listFiles((data: any) => callback(data));
 
         }
         if (gapi){
